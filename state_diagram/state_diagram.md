@@ -18,8 +18,8 @@
   a. Be taken to a screen with a bunch of voting options.
   b. Selects their choices and submits their vote.
   c. Be then required to enter their voter ID.
-  d. Be required to confirm who they are by taking a selfie. 
-  e. Be redirected to a screen that shows their vote was successfully submitted.
+  d. Be required to confirm who they via live video feed (webcam / selfie-cam) 
+  e. Be redirected to Results Screen that shows their vote was successfully submitted via headbar.
 
 ## Results
 
