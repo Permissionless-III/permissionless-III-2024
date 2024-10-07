@@ -6,7 +6,7 @@ import "@/styles/globals.css";
 import "@/styles/colors.css";
 
 import { siteConfig } from "@/constant/config";
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout/Layout";
 
 // !STARTERCONF Change these default meta
 // !STARTERCONF Look at @/constant/config to change them
