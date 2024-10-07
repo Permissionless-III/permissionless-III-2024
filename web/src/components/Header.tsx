@@ -2,7 +2,7 @@ import { ConnectKitButton } from "connectkit";
 
 export default function Header() {
   return (
-    <div>
+    <div className="flex justify-end items-center p-4 bg-white sticky top-0 z-50">
       <ConnectKitButton />
     </div>
   );
