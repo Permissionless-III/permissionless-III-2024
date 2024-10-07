@@ -1,3 +1,5 @@
+import React from "react";
+
 import { ConnectKitButton } from "connectkit";
 
 export default function Header() {
