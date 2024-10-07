@@ -6,9 +6,11 @@ import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol'
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 
+import './SignatureVerifier.sol';
+
 import '../interfaces/IRegistry.sol';
 
-contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, IRegistry {
+contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, IRegistry, SignatureVerifier {
     /*///////////////////////////////////////////////////////////////
                                 State
     //////////////////////////////////////////////////////////////*/
@@ -23,6 +25,8 @@ contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, I
 
     Voter[] public registered_voters;
     mapping(bytes => bool) private voter_exists;
+
+    event VoterRegistration();
 
     /*///////////////////////////////////////////////////////////////
                     Constructor, Initializer, Modifiers
@@ -57,13 +61,15 @@ contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, I
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
-    function register(bytes _did) public {
-        require(Utils.verify_signature(_signature) == true, 'invalid signature');
-
+    function register(bytes _did, bytes _signature) public is_verified(_signature) returns (Voter) {
         require(_did != address(0), 'invalid did');
         require(voter_exists[_did] == false, 'voter exists');
 
-        registered_voters.push(Voter(msg.sender, _did, block.timestamp, []));
+        Voter new_voter = Voter(msg.sender, _did, block.timestamp, []);
+
+        registered_voters.push(new_voter);
+        emit VoterRegistration();
+        return new_voter;
     }
 
     /*///////////////////////////////////////////////////////////////
