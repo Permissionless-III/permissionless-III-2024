@@ -1,0 +1,6 @@
+node_modules
+.next
+.husky
+.env
+.env.local
+.DS_Store
