@@ -9,3 +9,11 @@
 ```shell
 python -m pip install Flask request jsonify
 ```
+
+## Run
+
+```shell
+python app.py
+```
+
+
