@@ -4,6 +4,6 @@ describe('Test Generating Access Token', () => {
   it('should generate access token', async () => {
     const response = await generateAccessToken();
     console.log(response);
-    expect(response).toBeDefined();
+    expect(response.code).toBe(200);
   });
 });

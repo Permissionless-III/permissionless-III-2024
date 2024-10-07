@@ -24,9 +24,6 @@ export async function generateAccessToken(): Promise<string> {
     .update(timestamp + method + url + body)
     .digest("hex");
 
-  console.log(SUMSUB_TOKEN);
-  console.log(signature);
-
   const response = await fetch(
     "https://api.sumsub.com/resources/accessTokens",
     {
@@ -41,7 +38,5 @@ export async function generateAccessToken(): Promise<string> {
   );
 
   const data = await response.json();
-  console.log(data);
-
   return data;
 }
