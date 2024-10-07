@@ -6,25 +6,21 @@ import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol'
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 
-import './SignatureVerifier.sol';
+// Libs
+import '../libraries/Types.sol';
+import '../libraries/SignatureVerifier.sol';
 
 import '../interfaces/IRegistry.sol';
 
-contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, IRegistry, SignatureVerifier {
+contract Registry is IRegistry, Initializable, AccessControlUpgradeable, UUPSUpgradeable {
     /*///////////////////////////////////////////////////////////////
                                 State
     //////////////////////////////////////////////////////////////*/
     bytes32 public constant UPGRADER_ROLE = keccak256('UPGRADER_ROLE');
 
-    struct Voter {
-        address minter;
-        bytes did;
-        uint256 registered_at;
-        address elections;
-    }
+    address private trusted_signer;
 
-    Voter[] public registered_voters;
-    mapping(bytes => bool) private voter_exists;
+    mapping(bytes => Types.Voter) public registered_voters;
 
     event VoterRegistration();
 
@@ -37,9 +33,11 @@ contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, I
         _disableInitializers();
     }
 
-    function initialize(address defaultAdmin, address upgrader) public initializer {
+    function initialize(address defaultAdmin, address upgrader, address _trusted_signer) public initializer {
         __AccessControl_init();
         __UUPSUpgradeable_init();
+
+        trusted_signer = _trusted_signer;
 
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
         _grantRole(UPGRADER_ROLE, upgrader);
@@ -49,27 +47,33 @@ contract Registry is Initializable, AccessControlUpgradeable, UUPSUpgradeable, I
                             View functions
     //////////////////////////////////////////////////////////////*/
 
-    function total_registered() public view returns (uint) {
-        return registered_voters.length;
+    function voter(string calldata _did) external view returns (Types.Voter memory) {
+        return registered_voters[bytes(_did)];
     }
 
-    function is_registered(bytes _did) public view returns (bool) {
-        return voter_exists[_did];
-    }
+    // function total_registered() external view returns (uint) {
+    //     return registered_voters.length;
+    // }
 
     /*///////////////////////////////////////////////////////////////
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
-    function register(bytes _did, bytes _signature) public is_verified(_signature) returns (Voter) {
-        require(_did != address(0), 'invalid did');
-        require(voter_exists[_did] == false, 'voter exists');
+    function register(
+        string calldata _did,
+        string calldata _message,
+        bytes calldata _signature
+    ) external returns (Types.Voter memory) {
+        require(SignatureVerifier.verify(_message, _signature, trusted_signer) == true, 'invalid signature');
 
-        Voter new_voter = Voter(msg.sender, _did, block.timestamp, []);
+        require(bytes(_did).length != 0, 'invalid did');
+        // require(voter_exists[bytes(_did)] == false, 'voter exists');
 
-        registered_voters.push(new_voter);
+        Types.Voter memory voter = Types.Voter(msg.sender, bytes(_did), block.timestamp);
+
+        registered_voters[bytes(_did)] = voter;
         emit VoterRegistration();
-        return new_voter;
+        return voter;
     }
 
     /*///////////////////////////////////////////////////////////////
