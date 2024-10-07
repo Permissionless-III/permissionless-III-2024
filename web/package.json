@@ -29,7 +29,8 @@
     "tailwind-merge": "^2.5.2",
     "viem": "2.x",
     "wagmi": "^2.12.17",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "encoding": "^0.1.13"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.3.0",
@@ -57,7 +58,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.5.0",
     "tailwindcss": "^3.4.12",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
