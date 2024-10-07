@@ -8,12 +8,15 @@ import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol'
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 
+import './SignatureVerifier.sol';
+
 contract Election is
     Initializable,
     ERC1155Upgradeable,
     ERC1155SupplyUpgradeable,
     AccessControlUpgradeable,
-    UUPSUpgradeable
+    UUPSUpgradeable,
+    SignatureVerifier
 {
     /*///////////////////////////////////////////////////////////////
                                 State
@@ -41,6 +44,8 @@ contract Election is
 
     Candidate[] public candidates;
     Vote[] public votes;
+
+    event SubmitVote();
 
     /*///////////////////////////////////////////////////////////////
                     Constructor, Initializer, Modifiers
@@ -74,41 +79,63 @@ contract Election is
         _grantRole(UPGRADER_ROLE, upgrader);
     }
 
+    modifier is_active() {
+        require(active() == true, 'election not active');
+        _;
+    }
+
     /*///////////////////////////////////////////////////////////////
                             View functions
     //////////////////////////////////////////////////////////////*/
 
-    function metadata() public view returns (bytes32) {
-        return (name);
+    function active() public view returns (bool) {
+        return block.timestamp <= kickoff && block.timestamp >= deadline;
     }
 
-    function total_voters() public view returns (uint) {
-        return votes.length;
+    function metadata() public view returns (bytes32) {
+        return (name, description, kickoff, deadline);
     }
 
     function candidates() public view returns (Candidate[]) {
         return candidates;
     }
 
+    function total_voters() public view returns (uint) {
+        return votes.length;
+    }
+
+    function votes() public view returns (Vote[]) {
+        return votes;
+    }
+
     /*///////////////////////////////////////////////////////////////
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
-    function update_metadata() public {}
+    function vote(bytes32 _did, uint256 _candidate, bytes _signature) public is_active {
+        _vote(_did, _candidate, _signature);
+    }
 
-    function vote(bytes32 _did, uint256 _candidate, bytes32 _signature) public {
-        require(Utils.verify_signature(_signature) == true, 'invalid signature');
-
-        Voter voter = registry().voter(_did);
-
-        require(voter != 0, 'invalid voter');
-
-        votes.push(Vote(msg.sender, voter, _candidate, block.timestamp));
+    function register_and_vote(bytes32 _did, uint256 _candidate, bytes _signature) public is_active {
+        registry().register(_did);
+        _vote(_did, _candidate, _signature);
     }
 
     /*///////////////////////////////////////////////////////////////
                             Internal functions
     //////////////////////////////////////////////////////////////*/
+
+    function _vote(bytes32 _did, uint256 _candidate, bytes _signature) public is_verified(_signature) {
+        Voter voter = registry().voter(_did);
+
+        require(voter != 0, 'invalid voter');
+
+        votes.push(Vote(msg.sender, voter, _candidate, block.timestamp));
+
+        super._mint(msg.sender, election_id, 1, []);
+
+        emit SubmitVote();
+    }
 
     // The following functions are overrides required by Solidity.
 

@@ -9,8 +9,8 @@
   "license": "MIT",
   "files": [
     "contracts/interfaces",
-    "artifacts/contracts/NormalV1Factory.sol/NormalV1Factory.json",
-    "artifacts/contracts/NormalV1Pool.sol/NormalV1Pool.json",
+    "artifacts/contracts/Election.sol/Election.json",
+    "artifacts/contracts/Registry.sol/Registry.json",
     "artifacts/contracts/interfaces/**/*.json",
     "!artifacts/contracts/interfaces/**/*.dbg.json"
   ],
@@ -20,6 +20,7 @@
   "dependencies": {},
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts-upgradeable": "^5.0.2",
     "hardhat": "^2.22.12",
     "prettier": "^2.0.5",
     "prettier-plugin-solidity": "^1.0.0-alpha.59"
