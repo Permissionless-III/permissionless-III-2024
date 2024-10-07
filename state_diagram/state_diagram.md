@@ -10,6 +10,7 @@
   - Username
   - Email
   - Driver's License
+  - Wallet Address
 2. The result of the upload will return a voter ID.
 
 ## Vote
@@ -18,7 +19,7 @@
   a. Be taken to a screen with a bunch of voting options.
   b. selects their choices and submits their vote.
   c. Be then required to enter their voter ID.
-  d. Be required to confirm who they are by takign a selfie. 
+  d. Be required to confirm who they are by taking a selfie. 
   e. Be redirected to a screen that shows their vote was successfully submitted.
 
 
