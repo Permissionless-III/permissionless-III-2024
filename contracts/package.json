@@ -1,0 +1,32 @@
+{
+  "name": "contracts",
+  "version": "0.1.0",
+  "description": "Core smart contracts for our Permissionless III hackathon",
+  "repository": "https://github.com/Permissionless-III/permissionless-III-2024",
+  "contributors": [
+    "Joshua Blew <joshua@normalfinance.io>"
+  ],
+  "license": "MIT",
+  "files": [
+    "contracts/interfaces",
+    "artifacts/contracts/NormalV1Factory.sol/NormalV1Factory.json",
+    "artifacts/contracts/NormalV1Pool.sol/NormalV1Pool.json",
+    "artifacts/contracts/interfaces/**/*.json",
+    "!artifacts/contracts/interfaces/**/*.dbg.json"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.12",
+    "prettier": "^2.0.5",
+    "prettier-plugin-solidity": "^1.0.0-alpha.59"
+  },
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat ignition deploy"
+  }
+}
