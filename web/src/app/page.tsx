@@ -11,12 +11,15 @@ import "@/lib/env";
  */
 import Kyc from "@/components/Kyc";
 import Vote from "@/components/vote/Vote";
+import { useState } from "react";
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,
 // to customize the default configuration.
 
 export default function HomePage() {
+  const [isVerified, setIsVerified] = useState(true);
+
   return (
     <main>
       <Head>
@@ -24,8 +27,7 @@ export default function HomePage() {
       </Head>
       <section className="bg-white">
         <div className="layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center">
-          <Kyc />
-          <Vote />
+          {isVerified ? <Vote /> : <Kyc />}
         </div>
       </section>
     </main>
