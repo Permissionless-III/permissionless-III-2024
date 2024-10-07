@@ -7,9 +7,10 @@
 ## Register
 
 1. The user will be taken to a screen where they will have to provide:
-  - Email (optional)
-    - Send voter ID to the email address provided
-  - Driver's License
+  - Email (optional).
+    - Send voter ID to the email address provided.
+  - Driver's License.
+2. Show registration success screen.
 
 ## Vote
 
