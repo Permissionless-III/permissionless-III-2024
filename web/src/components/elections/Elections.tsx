@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useContractRead } from "wagmi";
 import { Election } from "../types/types";
 import { electionsData } from "@/app/data/elections";
+import Link from "next/link";
 
 // Replace with your actual contract ABI and address
 const contractABI = [
@@ -27,14 +28,6 @@ export default function Elections() {
     }
   }, [elections]);
 
-  const voteElection = (election: Election) => {
-    window.location.href = `/vote`;
-  }
-
-  const editElection = (election: Election) => {
-    window.location.href = `/edit`;
-  }
-
   // if (isLoading) return <div>Loading results...</div>;
   // if (isError) return <div>Error loading results</div>;
 
@@ -45,17 +38,19 @@ export default function Elections() {
         <p>No elections have been created yet.</p>
       ) : (
         <>
-          {elections.map((election) => (
+          {elections.map(election => (
             <div className="flex py-1">
-              <button className="bg-blue-100 p-4 rounded-md " key={election.id}
-                onClick={(e) => voteElection(election)}>
-                <div>ID: {election.id}, Description: {election.description}</div>
-              </button>
+              <Link
+                className="bg-blue-100 p-4 rounded-md "
+                key={election.id}
+                href={`/vote/${election.id}`}
+              >
+                ID: {election.id}, Description: {election.description}
+              </Link>
             </div>
           ))}
         </>
-      )
-      }
-    </div >
+      )}
+    </div>
   );
 }

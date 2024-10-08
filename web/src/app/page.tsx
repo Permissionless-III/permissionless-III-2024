@@ -14,6 +14,7 @@ import "@/lib/env";
 import Vote from "@/components/vote/Vote";
 import Elections from "@/components/elections/Elections";
 import { useAccount } from "wagmi";
+import Home from "@/components/Home";
 
 const Kyc = dynamic(() => import("@/components/Kyc"), {
   ssr: false,
@@ -36,15 +37,7 @@ export default function HomePage() {
       <Head>
         <title>Permissionless III Hackathon Voting</title>
       </Head>
-      <>
-        {isVerified ? (
-          // <Vote />
-          <Elections />
-        ) : (
-          // <Elections />
-          <Kyc handleVerified={() => setIsVerified(true)} />
-        )}
-      </>
+      <Home />
     </>
   );
 }
