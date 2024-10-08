@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Election } from "@/components/types/types";
+import { ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
+import { useWriteContract } from "wagmi";
 
 export default function Create() {
   const [uri, setUri] = useState<number>(0);
@@ -13,61 +15,67 @@ export default function Create() {
   const [kickoff, setKickoff] = useState<number>(0);
   const [deadline, setDeadline] = useState<number>(0);
 
-  // const { writeContract, data: hash } = useWriteContract({
-  //   ...CONTRACT_CONFIG,
-  //   functionName: "vote",
-  //   args: [selectedOption.index, selectedOption.name],
-  // });
+  const { writeContract, data: hash } = useWriteContract({
+    ...ELECTION_FACTORY_CONTRACT_CONFIG,
+    functionName: "createElection",
+    args: [],
+  });
 
-  // const { isLoading: isTransactionLoading, isSuccess } = useWaitForTransaction({
-  //   hash,
-  // });
+  function handleCreateElection(event: any): void {
+    event.preventDefault();
+    console.log(name, description, candidateNames, candidateDescriptions, kickoff, deadline);
+    // writeContract()
+  }
+
 
   return (
     <div>
       <h2>Create Election</h2>
-      <input
-        type="text"
-        value={name}
-        onChange={e => setName(e.target.value)}
-        placeholder="Election Name"
-      />
-      <input
-        type="text"
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-        placeholder="Election Description"
-      />
-      <input
-        type="text"
-        value={candidateNames}
-        style={{
-          height: "100px",
-        }}
-        onChange={e => setCandidateNames(e.target.value)}
-        placeholder="Candidate Names"
-      />
-      <input
-        type="text"
-        value={candidateDescriptions}
-        style={{
-          height: "100px",
-        }}
-        onChange={e => setCandidateDescriptions(e.target.value)}
-        placeholder="Candidate Descriptions"
-      />
-      <input
-        type="text"
-        value={kickoff}
-        onChange={e => setKickoff(parseInt(e.target.value))}
-        placeholder="Kickoff"
-      />
-      <input
-        type="text"
-        value={deadline}
-        onChange={e => setDeadline(parseInt(e.target.value))}
-        placeholder="Deadline"
-      />
+      <>
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value)}
+          placeholder="Election Name"
+        />
+        <input
+          type="text"
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          placeholder="Election Description"
+        />
+        <input
+          type="text"
+          value={candidateNames}
+          style={{
+            height: "100px",
+          }}
+          onChange={e => setCandidateNames(e.target.value)}
+          placeholder="Candidate Names"
+        />
+        <input
+          type="text"
+          value={candidateDescriptions}
+          style={{
+            height: "100px",
+          }}
+          onChange={e => setCandidateDescriptions(e.target.value)}
+          placeholder="Candidate Descriptions"
+        />
+        <input
+          type="text"
+          value={kickoff}
+          onChange={e => setKickoff(parseInt(e.target.value))}
+          placeholder="Kickoff"
+        />
+        <input
+          type="text"
+          value={deadline}
+          onChange={e => setDeadline(parseInt(e.target.value))}
+          placeholder="Deadline"
+        />
+      </>
+      <button className="bg-blue-500 shadow-md p-4 rounded-xl w-full block" onClick={handleCreateElection}>Create Election</button>
     </div>
   );
 }
