@@ -13,9 +13,6 @@ export default function Elections() {
     functionName: "getAllElections",
   });
 
-  const handleCreate = (): void => {
-    console.log('create election');
-  }
   console.log("elections", elections);
   console.log("error", error);
   // if (isLoading) return <div>Loading results...</div>;
@@ -31,7 +28,6 @@ export default function Elections() {
             <button
               type="submit"
               className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
-              onClick={handleCreate}
             >
               Create Election
             </button>

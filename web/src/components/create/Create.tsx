@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Election } from "@/components/types/types";
 import { ELECTION_FACTORY_CONTRACT_ABI, ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
 import { useWriteContract } from "wagmi";
+import Link from "next/link";
 
 export default function Create() {
   const [uri, setUri] = useState<string>("");
@@ -24,7 +25,6 @@ export default function Create() {
       ...ELECTION_FACTORY_CONTRACT_CONFIG,
       functionName: "createElection",
       args: [uri, name, description, kickoff, deadline],
-      address: "0x1Bd271E505DF4d5CA5A7cA9F780676c3edc7AF16",
     });
   }
 
@@ -75,6 +75,14 @@ export default function Create() {
       >
         Submit
       </button>
+      <Link href="/">
+        <button
+          type="submit"
+          className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
+        >
+          Back
+        </button>
+      </Link>
     </div>
   );
 }
