@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
 import { parseEther } from "viem";
 import { useParams } from "next/navigation";
+import { getTimeLeft } from "@/utils/dates";
 
 type VoteOption = {
   name: string;
@@ -69,6 +70,8 @@ export function VoteOptions({
     },
   ];
 
+  const deadline = Date.now() + 30 * 24 * 60 * 60 * 1000;
+
   if (!electionOptions) return null;
 
   return (
@@ -76,7 +79,7 @@ export function VoteOptions({
       <h2 className="text-xl font-medium mb-2">{electionName}</h2>
       <span className="text-sm text-gray-400 font-normal inline-flex items-center mb-6">
         <ClockIcon className="w-4 h-4 mr-1" />
-        Voting ends in 32 days
+        Voting ends in {getTimeLeft(deadline)}
       </span>
       <div className="flex flex-col gap-3 lg:gap-4">
         {electionOptions?.map((option: VoteOption, idx: number) => (
