@@ -1,11 +1,6 @@
-import React, { useContractWrite, useWaitForTransaction } from "wagmi";
+import React, { useWriteContract, useWaitForTransaction } from "wagmi";
 import { useState } from "react";
-
-// Replace with your actual contract ABI and address
-const contractABI = [
-  /* Your contract ABI here */
-];
-const contractAddress = "0x..."; // Your contract address
+import { CONTRACT_CONFIG } from "@/constant/config";
 
 export function VoteSubmission({
   selectedOption,
@@ -17,19 +12,23 @@ export function VoteSubmission({
 }) {
   const [isVoting, setIsVoting] = useState(false);
 
-  // const { write, data, isLoading, isError } = useContractWrite({
-  //   address: contractAddress,
-  //   abi: contractABI,
-  //   functionName: "submitVote",
+  // const { writeContract, data: hash } = useWriteContract({
+  //   ...CONTRACT_CONFIG,
+  //   functionName: "vote",
+  //   args: [selectedOption.index, selectedOption.name],
   // });
 
   // const { isLoading: isTransactionLoading, isSuccess } = useWaitForTransaction({
-  //   hash: data?.hash,
+  //   hash,
   // });
 
-  const handleVote = () => {
+  const handleVote = async () => {
     setIsVoting(true);
-    // write({ args: [selectedOption] });
+    // const result = await writeContract({
+    //   ...CONTRACT_CONFIG,
+    //   functionName: "vote",
+    //   args: ["vid-string", BigInt(selectedOption.index)],
+    // });
   };
 
   // if (isLoading || isTransactionLoading) return <div>Processing...</div>;
