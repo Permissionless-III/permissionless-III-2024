@@ -9,7 +9,7 @@ export default function Vote() {
     name: string;
   }>(null);
 
-  const [submittedVid, setSubmittedVid] = useState(false);
+  const [submittedVid, setSubmittedVid] = useState<string | null>(null);
 
   return (
     <div>
