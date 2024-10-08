@@ -12,13 +12,6 @@ const contractABI = [
 const contractAddress = "0x..."; // Your contract address
 
 
-const ulStyle = {
-  listStyleType: 'none',
-  padding: 0,
-  margin: 0,
-  fontFamily: 'Arial, sans-serif'
-};
-
 const divStyle = {
   background: '#f4f4f4',
   margin: '5px 0',
@@ -26,10 +19,6 @@ const divStyle = {
   borderRadius: '5px',
   transition: 'background 0.3s',
   cursor: 'pointer'
-};
-
-const liHoverStyle = {
-  background: '#e2e2e2'
 };
 
 export default function Elections() {
@@ -62,7 +51,7 @@ export default function Elections() {
       {elections.length === 0 ? (
         <p>No elections have been created yet.</p>
       ) : (
-        <ul style={ulStyle}>
+        <ul>
           {elections.map((election) => (
             <div key={election.id}
               onClick={(e) => handleElectionClick(election)}
