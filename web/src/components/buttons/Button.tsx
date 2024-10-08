@@ -52,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           "transition-colors duration-75",
           //#region  //*=========== Size ===========
           [
-            size === "base" && ["px-6 py-4", "text-sm md:text-base"],
+            size === "base" && ["px-4 py-3", "text-sm md:text-base"],
             size === "sm" && ["px-2 py-1", "text-xs md:text-sm"],
           ],
           //#endregion  //*======== Size ===========
@@ -60,7 +60,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           [
             variant === "primary" && [
               "bg-primary-500 text-white",
-              "border-primary-600 border",
               "hover:bg-primary-600 hover:text-white",
               "active:bg-primary-700",
               "disabled:bg-primary-700",
@@ -81,8 +80,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             ],
             variant === "light" && [
               "bg-white text-gray-700",
-              "border border-gray-300",
-              "hover:text-dark hover:bg-gray-100",
+              "border-none shadow-md",
+              "hover:text-dark hover:bg-gray-50",
               "active:bg-white/80 disabled:bg-gray-200",
             ],
             variant === "dark" && [

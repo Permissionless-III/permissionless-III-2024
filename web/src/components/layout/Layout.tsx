@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <Web3Provider>
       <VidProvider>
         <Header />
-        <main className="h-[calc(100vh-72px)] w-full flex items-center justify-center text-center">
+        <main className="h-[calc(100vh-72px)] w-full flex items-center justify-center text-center bg-gray-100">
           {children}
         </main>
       </VidProvider>
