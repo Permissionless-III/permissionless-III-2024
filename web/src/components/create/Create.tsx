@@ -18,8 +18,7 @@ export default function Create() {
   console.log(data);
   console.log(isSuccess, isError, error);
 
-  function handleCreateElection(event: React.FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
+  const handleCreateElection = (): void => {
     console.log(name, description, kickoff, deadline);
     writeContract({
       ...ELECTION_FACTORY_CONTRACT_CONFIG,
@@ -64,9 +63,13 @@ export default function Create() {
           placeholder="Deadline"
         />
       </>
-      <form onSubmit={handleCreateElection}>
-        <button type="submit" className="bg-blue-500 shadow-md p-4 rounded-xl w-full block">Create Election</button>
-      </form>
+      <button
+        type="submit"
+        className="bg-blue-500 shadow-md p-4 rounded-xl w-full block"
+        onClick={handleCreateElection}
+      >
+        Submit
+      </button>
     </div>
   );
 }
