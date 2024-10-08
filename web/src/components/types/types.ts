@@ -4,6 +4,7 @@ export interface VoteResult {
 }
 
 export interface Election {
+  id: number;
   results: string;
   description: string;
   kickoff: Date;
