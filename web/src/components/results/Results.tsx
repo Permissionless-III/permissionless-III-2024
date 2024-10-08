@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useContractRead } from "wagmi";
+import { Election, VoteResult } from "../types/types";
+import BarGraph from "./BarGraph";
 
 // Replace with your actual contract ABI and address
 const contractABI = [
@@ -9,13 +11,9 @@ const contractABI = [
 ];
 const contractAddress = "0x..."; // Your contract address
 
-interface VoteResult {
-  option: string;
-  votes: number;
-}
-
 export default function Results() {
-  const [results, setResults] = useState<VoteResult[]>([]);
+  const [results, setResults] = useState<VoteResult[]>([{ option: "Candidate 1", votes: 1 }, { option: "Candidate 2", votes: 2 }]);
+  const [elections, setElections] = useState<Election[]>([{ results: "Results", description: "Description", kickoff: new Date(), deadline: new Date(), candidates: ["Candidate 1", "Candidate 2"] }]);
 
   // const { data, isError, isLoading } = useContractRead({
   //   address: contractAddress,
@@ -39,13 +37,14 @@ export default function Results() {
       {results.length === 0 ? (
         <p>No votes have been cast yet.</p>
       ) : (
-        <ul>
-          {results.map((result, index) => (
-            <li key={index}>
-              {result.option}: {result.votes} vote(s)
-            </li>
-          ))}
-        </ul>
+        <BarGraph data={results} />
+        // <ul>
+        //   {results.map((result, index) => (
+        //     <li key={index}>
+        //       {result.option}: {result.votes}
+        //     </li>
+        //   ))}
+        // </ul>
       )}
     </div>
   );
