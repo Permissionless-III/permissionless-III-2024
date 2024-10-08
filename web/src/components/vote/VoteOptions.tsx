@@ -23,17 +23,7 @@ export function VoteOptions({
   //   functionName: "name",
   // });
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setOptions(data as string[]);
-  //   }
-  // }, [data]);
-
-  // if (isLoading) return <div>Loading options...</div>;
-  // if (isError) return <div>Error loading options</div>;
-
   // name, description, kickoff, deadline
-
   const electionName = "2024 US Presidential Election";
 
   const electionOptions = [
@@ -46,6 +36,8 @@ export function VoteOptions({
       description: "Democratic candidate",
     },
   ];
+
+  if (!electionOptions) return null;
 
   return (
     <div>
