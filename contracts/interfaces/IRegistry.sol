@@ -10,9 +10,5 @@ interface IRegistry {
 
     // function is_registered(bytes calldata _did) external view returns (bool);
 
-    function register(
-        string calldata _did,
-        string calldata _message,
-        bytes calldata _signature
-    ) external returns (Types.Voter memory);
+    function register(string calldata _did, bytes calldata _signature) external returns (Types.Voter memory);
 }

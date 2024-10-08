@@ -8,25 +8,27 @@ library Types {
         string description;
         uint256 kickoff;
         uint256 deadline;
+        uint256 totalVotes;
     }
 
     struct Voter {
         address minter;
         string did;
-        bytes32 metadata;
-        uint256 registered_at;
-        uint256[] electionIds;
+        // bytes32 metadata;
+        uint256 registeredAt;
+        // uint256[] electionIds;
     }
 
     struct Vote {
         address caster;
         Voter voter;
-        uint256 candidate_index;
-        uint256 created_at;
+        uint256 candidateIndex;
+        uint256 createdAt;
     }
 
     struct Candidate {
         string name;
         string description;
+        uint256 totalVotes;
     }
 }

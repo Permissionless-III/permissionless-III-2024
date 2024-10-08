@@ -8,6 +8,10 @@ const config: HardhatUserConfig = {
     hardhat: {
       allowUnlimitedContractSize: false,
     },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.PRIVATE_KEY ?? ''], // 0x793cE628DB6691c4C357eCbA4a5D3774CDCA4EA0
+    },
     amoy: {
       url: `https://polygon-amoy.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.PRIVATE_KEY ?? ''], // 0x793cE628DB6691c4C357eCbA4a5D3774CDCA4EA0
