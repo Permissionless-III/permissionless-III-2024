@@ -30,7 +30,7 @@ export default function BarGraph({ data }: { data: VoteResult[] }) {
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+        {/* <CartesianGrid strokeDasharray="3 3" horizontal={false} /> */}
         <XAxis type="number" hide />
         <YAxis
           dataKey="option"
@@ -38,7 +38,6 @@ export default function BarGraph({ data }: { data: VoteResult[] }) {
           width={100}
           axisLine={false}
           tickLine={false}
-          hide
         />
         <Tooltip />
         {/* <Legend /> */}

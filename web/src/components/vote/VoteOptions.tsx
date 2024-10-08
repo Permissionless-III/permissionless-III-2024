@@ -48,7 +48,7 @@ export function VoteOptions({
         <button
           key={idx}
           onClick={() => onOptionSelect({ index: idx, name: option.name })}
-          className="block my-2 bg-gray-200 rounded py-2 px-4 w-full "
+          className="block my-2 bg-gray-200 rounded-xl py-4 px-6 w-full "
         >
           {option.name} ({option.description})
         </button>

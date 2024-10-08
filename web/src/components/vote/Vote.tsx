@@ -11,7 +11,9 @@ export default function Vote() {
   return (
     <div>
       <VoteOptions onOptionSelect={setSelectedOption} />
-      {selectedOption && <VoteSubmission selectedOption={selectedOption} />}
+      <div className="min-h-[100px] mt-8">
+        {selectedOption && <VoteSubmission selectedOption={selectedOption} />}
+      </div>
     </div>
   );
 }
