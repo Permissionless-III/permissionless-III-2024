@@ -18,15 +18,13 @@ export default function Create() {
   const { writeContract, data: hash } = useWriteContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "createElection",
-    args: [],
   });
 
   function handleCreateElection(event: any): void {
     event.preventDefault();
-    console.log(name, description, candidateNames, candidateDescriptions, kickoff, deadline);
-    // writeContract()
+    console.log(name, description, kickoff, deadline);
+    writeContract({ args: ["info", name, description, kickoff, deadline] })
   }
-
 
   return (
     <div>
@@ -43,24 +41,6 @@ export default function Create() {
           value={description}
           onChange={e => setDescription(e.target.value)}
           placeholder="Election Description"
-        />
-        <input
-          type="text"
-          value={candidateNames}
-          style={{
-            height: "100px",
-          }}
-          onChange={e => setCandidateNames(e.target.value)}
-          placeholder="Candidate Names"
-        />
-        <input
-          type="text"
-          value={candidateDescriptions}
-          style={{
-            height: "100px",
-          }}
-          onChange={e => setCandidateDescriptions(e.target.value)}
-          placeholder="Candidate Descriptions"
         />
         <input
           type="text"
