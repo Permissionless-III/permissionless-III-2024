@@ -65,7 +65,7 @@ export default function Results() {
             {results?.map((result: VoteResult) => (
               <>
                 <tr>
-                  <td className="pt-3 font-medium">{result.option}</td>
+                  <td className="pt-4 font-medium">{result.option}</td>
                   <td className="pt-3">{result.votes}</td>
                   <td className="pt-3 font-medium text-right">
                     {getPercentage(result.votes)}
