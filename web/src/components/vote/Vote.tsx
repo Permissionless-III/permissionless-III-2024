@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ArrowRightIcon, ChevronRightIcon, Link } from "lucide-react";
 import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 import Results from "../results/Results";
@@ -14,15 +15,18 @@ export default function Vote() {
   const { vid } = useVid();
 
   return (
-    <div>
+    <>
       {!submitted && (
-        <>
-          <VoteOptions
-            onOptionSelect={setSelectedOption}
-            selectedOptionIdx={selectedOption?.index ?? -1}
-          />
+        <div className="flex flex-col h-full">
+          <div className="flex-none">
+            <VoteOptions
+              onOptionSelect={setSelectedOption}
+              selectedOptionIdx={selectedOption?.index ?? -1}
+            />
+          </div>
+          <div className="flex-1 " />
 
-          <div className="min-h-[120px] mt-12">
+          <div className="min-h-[120px] mt-12 flex-none">
             {selectedOption && (
               <VoteSubmission
                 selectedOption={selectedOption}
@@ -30,15 +34,24 @@ export default function Vote() {
               />
             )}
           </div>
-        </>
+        </div>
       )}
 
       {!!submitted && (
-        <div>
-          Submitted {vid} (view on explorer)
+        <div className="flex-none">
+          <div className="mb-12 ">
+            <div className="mb-2">Your vote has been cast!</div>
+            <Link
+              className="font-medium text-primary-500 inline-flex items-center"
+              href={`https://sepolia.etherscan.io/tx/${vid}`}
+            >
+              View on Block Explorer
+              <ArrowRightIcon className="w-5 h-5" />
+            </Link>
+          </div>
           <Results />
         </div>
       )}
-    </div>
+    </>
   );
 }

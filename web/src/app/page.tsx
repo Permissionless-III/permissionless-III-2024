@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import "@/lib/env";
@@ -13,6 +13,7 @@ import "@/lib/env";
  */
 import Vote from "@/components/vote/Vote";
 import Elections from "@/components/elections/Elections";
+import { useAccount } from "wagmi";
 
 const Kyc = dynamic(() => import("@/components/Kyc"), {
   ssr: false,
@@ -24,6 +25,11 @@ const Kyc = dynamic(() => import("@/components/Kyc"), {
 
 export default function HomePage() {
   const [isVerified, setIsVerified] = useState(false);
+  const { address } = useAccount();
+
+  useEffect(() => {
+    if (!address) setIsVerified(false);
+  }, [address]);
 
   return (
     <>
@@ -35,6 +41,7 @@ export default function HomePage() {
           // <Vote />
           <Elections />
         ) : (
+          // <Elections />
           <Kyc handleVerified={() => setIsVerified(true)} />
         )}
       </>
