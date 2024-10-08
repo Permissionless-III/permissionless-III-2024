@@ -28,7 +28,8 @@ export default function Elections() {
   }, [elections]);
 
   const handleElectionClick = (election: Election) => {
-    console.log(election);
+    window.location.href = `/vote?electionId=${election.id}`;
+    window.location.href = `/vote`;
   }
 
   // if (isLoading) return <div>Loading results...</div>;

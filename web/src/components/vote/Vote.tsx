@@ -3,6 +3,7 @@ import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 import Results from "../results/Results";
 import { useVid } from "@/hooks/useVid";
+import { useRouter } from "next/router";
 
 export default function Vote() {
   const [selectedOption, setSelectedOption] = useState<null | {

@@ -32,8 +32,8 @@ export default function HomePage() {
       </Head>
       <>
         {isVerified ? (
-          <Vote />
-          // <Elections />
+          // <Vote />
+          <Elections />
         ) : (
           <Kyc handleVerified={() => setIsVerified(true)} />
         )}
