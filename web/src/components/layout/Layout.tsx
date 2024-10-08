@@ -2,12 +2,12 @@
 
 import Header from "./Header";
 import { Web3Provider } from "./Web3Provider";
-import { VidProvider } from "@/contexts/VidContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Web3Provider>
-      <VidProvider>
+      <AuthProvider>
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow bg-gray-100 p-6 lg:p-8 flex">
@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </main>
         </div>
-      </VidProvider>
+      </AuthProvider>
     </Web3Provider>
   );
 }

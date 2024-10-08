@@ -9,15 +9,11 @@ import {
 } from "@/app/actions/kyc";
 import { useAccount } from "wagmi";
 import { ConnectKitButton } from "connectkit";
-import { useVid } from "@/hooks/useVid";
+import { useAuth } from "@/hooks/useAuth";
 
-export default function Kyc({
-  handleVerified,
-}: {
-  handleVerified: () => void;
-}) {
+export default function Kyc() {
   const { address } = useAccount();
-  const { setVid } = useVid();
+  const { setAuth } = useAuth();
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -58,10 +54,12 @@ export default function Kyc({
             type === "idCheck.onApplicantStatusChanged" &&
             (payload as any)?.reviewResult?.reviewAnswer === "GREEN"
           ) {
-            handleVerified();
             getApplicantId(address as string).then((id: string) => {
               checkDuplication(id);
-              setVid(id);
+              setAuth({
+                id,
+                isVerified: true,
+              });
             });
           }
         }}

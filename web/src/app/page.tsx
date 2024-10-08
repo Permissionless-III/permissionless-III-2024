@@ -15,6 +15,7 @@ import Vote from "@/components/vote/Vote";
 import Elections from "@/components/elections/Elections";
 import { useAccount } from "wagmi";
 import Home from "@/components/Home";
+import { useAuth } from "@/hooks/useAuth";
 
 const Kyc = dynamic(() => import("@/components/Kyc"), {
   ssr: false,
@@ -25,12 +26,11 @@ const Kyc = dynamic(() => import("@/components/Kyc"), {
 // to customize the default configuration.
 
 export default function HomePage() {
-  const [isVerified, setIsVerified] = useState(false);
-  const { address } = useAccount();
+  const { auth } = useAuth();
 
-  useEffect(() => {
-    if (!address) setIsVerified(false);
-  }, [address]);
+  if (!auth.isVerified) {
+    return <Kyc />;
+  }
 
   return (
     <>
