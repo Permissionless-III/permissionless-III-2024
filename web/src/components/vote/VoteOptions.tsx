@@ -2,6 +2,7 @@ import { CONTRACT_CONFIG } from "@/constants/config";
 import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
+import { cn } from "@/lib/utils";
 
 type VoteOption = {
   name: string;
@@ -10,8 +11,10 @@ type VoteOption = {
 
 export function VoteOptions({
   onOptionSelect,
+  selectedOptionIdx,
 }: {
   onOptionSelect: (optionIdx: { index: number; name: string }) => void;
+  selectedOptionIdx: number;
 }) {
   // const { data: electionOptions } = useReadContract({
   //   ...CONTRACT_CONFIG,
@@ -28,11 +31,11 @@ export function VoteOptions({
 
   const electionOptions = [
     {
-      name: "Trump",
+      name: "Donald J. Trump",
       description: "Republican candidate",
     },
     {
-      name: "Harris",
+      name: "Kamala Harris",
       description: "Democratic candidate",
     },
   ];
@@ -40,16 +43,22 @@ export function VoteOptions({
   if (!electionOptions) return null;
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <h2 className="text-xl font-medium mb-4">{electionName}</h2>
       {electionOptions?.map((option: VoteOption, idx: number) => (
         <Button
-          className="block w-full mb-4"
+          variant="light"
+          className={cn("block w-full mb-2", {
+            "ring-2 ring-primary-500": selectedOptionIdx === idx,
+          })}
           size="base"
           key={idx}
           onClick={() => onOptionSelect({ index: idx, name: option.name })}
         >
-          {option?.name} ({option?.description})
+          {option?.name}
+          <span className="block text-sm text-gray-400 font-normal">
+            ({option?.description})
+          </span>
         </Button>
       ))}
     </div>

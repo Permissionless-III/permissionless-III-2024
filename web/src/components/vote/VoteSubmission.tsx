@@ -44,9 +44,7 @@ export function VoteSubmission({
 
   return (
     <>
-      <p className="text-sm font-medium mb-4">
-        Selected option: {selectedOption.name}
-      </p>
+      <p className="text-sm mb-4">You have selected {selectedOption.name}.</p>
       <Button
         onClick={handleVote}
         isLoading={isVoting}
@@ -54,7 +52,7 @@ export function VoteSubmission({
         className="block w-full"
         size="base"
       >
-        Submit Vote
+        Confirm your Vote
       </Button>
     </>
   );

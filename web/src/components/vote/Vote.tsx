@@ -17,9 +17,12 @@ export default function Vote() {
     <div>
       {!submitted && (
         <>
-          <VoteOptions onOptionSelect={setSelectedOption} />
+          <VoteOptions
+            onOptionSelect={setSelectedOption}
+            selectedOptionIdx={selectedOption?.index ?? -1}
+          />
 
-          <div className="min-h-[100px] mt-8">
+          <div className="min-h-[120px] mt-12">
             {selectedOption && (
               <VoteSubmission
                 selectedOption={selectedOption}
