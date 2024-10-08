@@ -7,7 +7,14 @@ const contractABI = [
 ];
 const contractAddress = "0x..."; // Your contract address
 
-export function VoteSubmission({ selectedOption }: { selectedOption: string }) {
+export function VoteSubmission({
+  selectedOption,
+}: {
+  selectedOption: {
+    index: number;
+    name: string;
+  };
+}) {
   const [isVoting, setIsVoting] = useState(false);
 
   // const { write, data, isLoading, isError } = useContractWrite({
@@ -31,9 +38,14 @@ export function VoteSubmission({ selectedOption }: { selectedOption: string }) {
 
   return (
     <div>
-      <h2>Submit Your Vote</h2>
-      <p>Selected option: {selectedOption}</p>
-      <button onClick={handleVote} disabled={isVoting || !selectedOption}>
+      <p className="text-sm font-medium mb-4 mt-8">
+        Selected option: {selectedOption.name}
+      </p>
+      <button
+        onClick={handleVote}
+        disabled={isVoting || !selectedOption}
+        className="bg-black text-white px-4 py-2 rounded block w-full"
+      >
         Submit Vote
       </button>
     </div>

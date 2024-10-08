@@ -3,11 +3,13 @@ import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 
 export default function Vote() {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<null | {
+    index: number;
+    name: string;
+  }>(null);
 
   return (
     <div>
-      <h1>Voting System</h1>
       <VoteOptions onOptionSelect={setSelectedOption} />
       {selectedOption && <VoteSubmission selectedOption={selectedOption} />}
     </div>
