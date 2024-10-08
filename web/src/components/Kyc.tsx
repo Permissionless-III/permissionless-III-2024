@@ -28,13 +28,18 @@ export default function Kyc({
   if (!accessToken) return "Loading...";
 
   return (
-    <div>
+    <div className="w-full max-w-xl mx-auto">
       <SumsubWebSdk
         accessToken={accessToken}
         expirationHandler={() => {
           return Promise.resolve("not sure what this is");
         }}
-        config={{ lang: "en" }}
+        config={{
+          lang: "en",
+          // uiConf: {
+          //   customCssStr: ":root {--background-color: #ffffff;}",
+          // },
+        }}
         options={{ addViewportTag: false, adaptIframeHeight: true }}
         onMessage={(type, payload) => {
           console.log("onMessage", type, payload);
