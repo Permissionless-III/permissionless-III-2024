@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 import Results from "../results/Results";
+import { useVid } from "@/hooks/useVid";
 
 export default function Vote() {
   const [selectedOption, setSelectedOption] = useState<null | {
@@ -9,11 +10,12 @@ export default function Vote() {
     name: string;
   }>(null);
 
-  const [submittedVid, setSubmittedVid] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const { vid } = useVid();
 
   return (
     <div>
-      {!submittedVid && (
+      {!submitted && (
         <>
           <VoteOptions onOptionSelect={setSelectedOption} />
 
@@ -21,16 +23,16 @@ export default function Vote() {
             {selectedOption && (
               <VoteSubmission
                 selectedOption={selectedOption}
-                onSubmitted={(vid: string) => setSubmittedVid(vid)}
+                onSubmitted={() => setSubmitted(true)}
               />
             )}
           </div>
         </>
       )}
 
-      {!!submittedVid && (
+      {!!submitted && (
         <div>
-          Submitted {submittedVid}
+          Submitted {vid} (view on explorer)
           <Results />
         </div>
       )}

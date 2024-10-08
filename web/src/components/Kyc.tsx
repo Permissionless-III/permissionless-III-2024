@@ -9,6 +9,7 @@ import {
 } from "@/app/actions/kyc";
 import { useAccount } from "wagmi";
 import { ConnectKitButton } from "connectkit";
+import { useVid } from "@/hooks/useVid";
 
 export default function Kyc({
   handleVerified,
@@ -16,6 +17,7 @@ export default function Kyc({
   handleVerified: () => void;
 }) {
   const { address } = useAccount();
+  const { setVid } = useVid();
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,6 +56,7 @@ export default function Kyc({
             handleVerified();
             getApplicantId(address as string).then((id: string) => {
               checkDuplication(id);
+              setVid(id);
             });
           }
         }}
