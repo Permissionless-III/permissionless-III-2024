@@ -24,7 +24,6 @@ export async function generateAccessToken(levelName: string, userId: string): Pr
     .update(timestamp + method + url)
     .digest("hex");
 
-
   const response = await fetch(
     `https://api.sumsub.com/resources/accessTokens?levelName=${levelName}&userId=${userId}`,
     {
