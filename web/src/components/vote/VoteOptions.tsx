@@ -1,9 +1,10 @@
-import { CONTRACT_CONFIG } from "@/constants/config";
+import { ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
 import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
 import { cn } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
+import { parseEther } from "viem";
 
 type VoteOption = {
   name: string;
@@ -22,10 +23,12 @@ export function VoteOptions({
   //   functionName: "candidates",
   // });
 
+  // console.log("Config", CONTRACT_CONFIG.address);
+
   const { data: election } = useReadContract({
-    ...CONTRACT_CONFIG,
+    ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
-    args: ["2"],
+    args: [parseEther("2")],
   });
 
   console.log("election", election);

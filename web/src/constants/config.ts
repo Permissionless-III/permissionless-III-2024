@@ -6,9 +6,10 @@ export const siteConfig = {
   url: "https://tsnext-tw.thcl.dev",
 };
 
-export const CONTRACT_ADDRESS = "0x470dFfab86e2F2259bBb688317D59A94F4223412";
+export const ELECTION_FACTORY_CONTRACT_ADDRESS =
+  "0x470dFfab86e2F2259bBb688317D59A94F4223412";
 
-export const CONTRACT_ABI = [
+export const ELECTION_CONTRACT_ABI = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -713,8 +714,247 @@ export const CONTRACT_ABI = [
   },
 ] as const;
 
-export const CONTRACT_CONFIG = {
-  address: CONTRACT_ADDRESS,
-  abi: CONTRACT_ABI,
+export const ELECTION_FACTORY_CONTRACT_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_registry",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_trustedSigner",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "creator",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "election",
+        type: "address",
+      },
+    ],
+    name: "ElectionCreated",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_uri",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_description",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "_kickoff",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_deadline",
+        type: "uint256",
+      },
+    ],
+    name: "createElection",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "election",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "electionCount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "getElection",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getParameters",
+    outputs: [
+      {
+        internalType: "address",
+        name: "_factory",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_electionId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_uri",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_description",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "_kickoff",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_deadline",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "parameters",
+    outputs: [
+      {
+        internalType: "address",
+        name: "_factory",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_electionId",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_uri",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_description",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "_kickoff",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_deadline",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "registry",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedSigner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;
+
+export const ELECTION_FACTORY_CONTRACT_CONFIG = {
+  address: ELECTION_FACTORY_CONTRACT_ADDRESS,
+  abi: ELECTION_FACTORY_CONTRACT_ABI,
   chainId: 11155111,
 } as const;
