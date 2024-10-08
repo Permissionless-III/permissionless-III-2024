@@ -27,9 +27,12 @@ export default function Elections() {
     }
   }, [elections]);
 
-  const handleElectionClick = (election: Election) => {
-    window.location.href = `/vote?electionId=${election.id}`;
+  const voteElection = (election: Election) => {
     window.location.href = `/vote`;
+  }
+
+  const editElection = (election: Election) => {
+    window.location.href = `/edit`;
   }
 
   // if (isLoading) return <div>Loading results...</div>;
@@ -45,7 +48,7 @@ export default function Elections() {
           {elections.map((election) => (
             <div className="flex py-1">
               <button className="bg-blue-100 p-4 rounded-md " key={election.id}
-                onClick={(e) => handleElectionClick(election)}>
+                onClick={(e) => voteElection(election)}>
                 <div>ID: {election.id}, Description: {election.description}</div>
               </button>
             </div>
