@@ -39,5 +39,5 @@ export async function generateAccessToken(levelName: string, userId: string): Pr
   );
 
   const data = await response.json();
-  return data;
+  return data.token;
 }
