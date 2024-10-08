@@ -7,8 +7,10 @@ import { generateAccessToken } from "@/app/actions/kyc";
 export default function Kyc() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
+  // idCheck.onApplicantStatusChanged
+
   useEffect(() => {
-    generateAccessToken().then((token: string) => {
+    generateAccessToken("basic-kyc-level", "12312").then((token: string) => {
       setAccessToken(token);
     });
   }, []);

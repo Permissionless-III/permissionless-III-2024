@@ -18,7 +18,7 @@ import { useState } from "react";
 // to customize the default configuration.
 
 export default function HomePage() {
-  const [isVerified, setIsVerified] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
 
   return (
     <main>
