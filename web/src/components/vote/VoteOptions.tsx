@@ -1,4 +1,7 @@
-import { ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
+import {
+  ELECTION_CONTRACT_CONFIG,
+  ELECTION_FACTORY_CONTRACT_CONFIG,
+} from "@/constants/config";
 import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
@@ -35,7 +38,7 @@ export function VoteOptions({
   );
 
   const {
-    data: election,
+    data: electionContractAddress,
     isLoading,
     isError,
     error,
@@ -46,22 +49,25 @@ export function VoteOptions({
     args: [keccak256(encodePacked(["string"], [electionId as string]))],
   });
 
-  console.log("getElection result", election);
-  console.log("isLoading", isLoading);
-  console.log("isError", isError);
-  console.log("error", error);
-  console.log("isLoadingError", isLoadingError);
+  console.log("getElection result", electionContractAddress);
 
-  // const { data: electionName } = useReadContract({
-  //   ...CONTRACT_CONFIG,
-  //   functionName: "name",
-  // });
+  const { data: electionName } = useReadContract({
+    ...ELECTION_CONTRACT_CONFIG,
+    address: electionContractAddress as `0x${string}`,
+    functionName: "name",
+  });
 
-  // console.log("electionName", electionName);
+  const { data: electionDeadline } = useReadContract({
+    ...ELECTION_CONTRACT_CONFIG,
+    address: electionContractAddress as `0x${string}`,
+    functionName: "deadline",
+  });
+
+  console.log("deadline", electionDeadline);
   // console.log("electionOptions", electionOptions);
 
   // name, description, kickoff, deadline
-  const electionName = "2024 US Presidential Election";
+  // const electionName = "2024 US Presidential Election";
 
   const electionOptions = [
     {

@@ -349,9 +349,9 @@ export const ELECTION_CONTRACT_ABI = [
     name: "electionId",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "bytes32",
         name: "",
-        type: "uint256",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -960,5 +960,10 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
 export const ELECTION_FACTORY_CONTRACT_CONFIG = {
   address: ELECTION_FACTORY_CONTRACT_ADDRESS,
   abi: ELECTION_FACTORY_CONTRACT_ABI,
+  chainId: 11155111,
+} as const;
+
+export const ELECTION_CONTRACT_CONFIG = {
+  abi: ELECTION_CONTRACT_ABI,
   chainId: 11155111,
 } as const;
