@@ -8,9 +8,8 @@ import {
   getApplicantId,
 } from "@/app/actions/kyc";
 import { useAccount } from "wagmi";
-import { ConnectKitButton } from "connectkit";
 import { useAuth } from "@/hooks/useAuth";
-
+import ConnectWalletButton from "@/components/layout/ConnectWalletButton";
 export default function Kyc() {
   const { address } = useAccount();
   const { setAuth } = useAuth();
@@ -29,7 +28,7 @@ export default function Kyc() {
   if (!address)
     return (
       <div className="flex h-full items-center justify-center">
-        <ConnectKitButton />
+        <ConnectWalletButton />
       </div>
     );
   if (!accessToken) return "Loading...";

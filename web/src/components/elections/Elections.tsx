@@ -6,12 +6,6 @@ import { Election } from "../types/types";
 import { electionsData } from "@/app/data/elections";
 import Link from "next/link";
 
-// Replace with your actual contract ABI and address
-const contractABI = [
-  /* Your contract ABI here */
-];
-const contractAddress = "0x..."; // Your contract address
-
 export default function Elections() {
   const [elections, setElections] = useState<Election[]>([]);
 
@@ -33,23 +27,20 @@ export default function Elections() {
 
   return (
     <div>
-      <h2>Elections</h2>
       {elections.length === 0 ? (
         <p>No elections have been created yet.</p>
       ) : (
-        <>
+        <div className="flex flex-col gap-3 h-full">
           {elections.map(election => (
-            <div className="flex py-1">
-              <Link
-                className="bg-blue-100 p-4 rounded-md "
-                key={election.id}
-                href={`/vote/${election.id}`}
-              >
-                ID: {election.id}, Description: {election.description}
-              </Link>
-            </div>
+            <Link
+              className="bg-white shadow-md p-4 rounded-xl w-full block"
+              key={election.id}
+              href={`/vote/${election.id}`}
+            >
+              ID: {election.id}, Description: {election.description}
+            </Link>
           ))}
-        </>
+        </div>
       )}
     </div>
   );
