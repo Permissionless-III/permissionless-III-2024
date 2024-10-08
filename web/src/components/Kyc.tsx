@@ -40,7 +40,7 @@ export default function Kyc({
           console.log("onMessage", type, payload);
           if (
             type === "idCheck.onApplicantStatusChanged" &&
-            (payload as any).reviewResult.reviewAnswer === "GREEN"
+            (payload as any)?.reviewResult?.reviewAnswer === "GREEN"
           ) {
             handleVerified();
             // todo call get applicant data by external id here
