@@ -3,21 +3,29 @@
 import React, { useEffect, useState } from "react";
 import SumsubWebSdk from "@sumsub/websdk-react";
 import { generateAccessToken, checkDuplication } from "@/app/actions/kyc";
+import { useAccount } from "wagmi";
+import { ConnectKitButton } from "connectkit";
 
 export default function Kyc({
   handleVerified,
 }: {
   handleVerified: () => void;
 }) {
+  const { address } = useAccount();
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
-    generateAccessToken("basic-kyc-level", "12312").then((token: string) => {
-      setAccessToken(token);
-    });
-  }, []);
+    if (!address) return;
 
-  if (!accessToken) return null;
+    generateAccessToken("basic-kyc-level", address as string).then(
+      (token: string) => {
+        setAccessToken(token);
+      }
+    );
+  }, [address]);
+
+  if (!address) return <ConnectKitButton />;
+  if (!accessToken) return "Loading...";
 
   return (
     <div>
@@ -35,6 +43,7 @@ export default function Kyc({
             (payload as any).reviewResult.reviewAnswer === "GREEN"
           ) {
             handleVerified();
+            // todo call get applicant data by external id here
             checkDuplication("<insert_applicant_id_here>");
           }
         }}
