@@ -1,6 +1,6 @@
 import React, { useWriteContract, useWaitForTransaction } from "wagmi";
 import { useState } from "react";
-import { CONTRACT_CONFIG } from "@/constant/config";
+import { CONTRACT_CONFIG } from "@/constants/config";
 import Button from "@/components/buttons/Button";
 
 export function VoteSubmission({
