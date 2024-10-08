@@ -1,24 +1,29 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 import { VoteResult } from "@/components/types/types";
 import BarGraph from "./BarGraph";
 import { resultsData } from "@/app/data/results";
+import { ELECTION_CONTRACT_CONFIG } from "@/constants/config";
 // Replace with your actual contract ABI and address
 const contractABI = [
   /* Your contract ABI here */
 ];
 const contractAddress = "0x..."; // Your contract address
 
-export default function Results() {
+export default function Results({
+  electionContractAddress,
+}: {
+  electionContractAddress: string;
+}) {
   const [results, setResults] = useState<VoteResult[]>([]);
 
-  // const { data, isError, isLoading } = useContractRead({
-  //   address: contractAddress,
-  //   abi: contractABI,
-  //   functionName: "getVoteResults",
-  // });
+  const { data, isError, isLoading } = useReadContract({
+    ...ELECTION_CONTRACT_CONFIG,
+    address: electionContractAddress as `0x${string}`,
+    functionName: "getVoteResults",
+  });
 
   useEffect(() => {
     if (resultsData) {

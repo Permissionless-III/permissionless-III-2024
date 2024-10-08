@@ -1,8 +1,11 @@
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import Results from "../results/Results";
 
 export default function VoteSuccess() {
+  const { electionContractAddress } = useParams();
+
   return (
     <div className="flex-none">
       <div className="mb-12 ">
@@ -15,7 +18,7 @@ export default function VoteSuccess() {
           <ArrowRightIcon className="w-5 h-5" />
         </Link>
       </div>
-      <Results />
+      <Results electionContractAddress={electionContractAddress as string} />
     </div>
   );
 }

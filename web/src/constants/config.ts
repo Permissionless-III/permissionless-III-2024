@@ -7,7 +7,7 @@ export const siteConfig = {
 };
 
 export const ELECTION_FACTORY_CONTRACT_ADDRESS =
-  "0x1Bd271E505DF4d5CA5A7cA9F780676c3edc7AF16";
+  "0x288C57b461675531AFA3BdAd0e26304bDFe1887d";
 
 export const ELECTION_CONTRACT_ABI = [
   {
@@ -384,6 +384,66 @@ export const ELECTION_CONTRACT_ABI = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCandidates",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "totalVotes",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct Types.Candidate[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getVotes",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "totalVotes",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct Types.Candidate[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
