@@ -25,7 +25,7 @@ export default function Elections() {
         <>
           <button
             type="submit"
-            className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden"
+            className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
             onClick={() => console.log('create election')}
           >
             Create Election
