@@ -5,6 +5,7 @@ import Button from "@/components/buttons/Button";
 import { cn } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
 import { parseEther } from "viem";
+import { useParams } from "next/navigation";
 
 type VoteOption = {
   name: string;
@@ -18,6 +19,7 @@ export function VoteOptions({
   onOptionSelect: (optionIdx: { index: number; name: string }) => void;
   selectedOptionIdx: number;
 }) {
+  const { electionId } = useParams();
   // const { data: electionOptions } = useReadContract({
   //   ...CONTRACT_CONFIG,
   //   functionName: "candidates",
@@ -28,7 +30,7 @@ export function VoteOptions({
   const { data: election } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
-    args: [parseEther("2")],
+    args: [electionId],
   });
 
   console.log("election", election);
