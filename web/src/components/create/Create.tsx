@@ -2,28 +2,30 @@
 
 import React, { useState, useEffect } from "react";
 import { Election } from "@/components/types/types";
-import { ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
+import { ELECTION_FACTORY_CONTRACT_ABI, ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
 import { useWriteContract } from "wagmi";
 
 export default function Create() {
   const [uri, setUri] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [candidateNames, setCandidateNames] = useState<string>("");
-  const [candidateDescriptions, setCandidateDescriptions] =
-    useState<string>("");
-  const [kickoff, setKickoff] = useState<number>(0);
-  const [deadline, setDeadline] = useState<number>(0);
+  useState<string>("");
+  const [kickoff, setKickoff] = useState<bigint>(BigInt(0));
+  const [deadline, setDeadline] = useState<bigint>(BigInt(0));
 
-  const { writeContract, data: hash } = useWriteContract({
-    ...ELECTION_FACTORY_CONTRACT_CONFIG,
-    functionName: "createElection",
-  });
+  const { writeContract, isSuccess, isError, error } = useWriteContract();
 
-  function handleCreateElection(event: any): void {
+  function handleCreateElection(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     console.log(name, description, kickoff, deadline);
-    writeContract({ args: ["info", name, description, kickoff, deadline] })
+    writeContract({
+      abi: ELECTION_FACTORY_CONTRACT_ABI,
+      functionName: "createElection",
+      args: ["info", name, description, kickoff, deadline],
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    });
+    console.log(isSuccess, isError, error);
+    console.log("Election created");
   }
 
   return (
@@ -43,19 +45,21 @@ export default function Create() {
           placeholder="Election Description"
         />
         <input
-          type="text"
-          value={kickoff}
-          onChange={e => setKickoff(parseInt(e.target.value))}
+          type="number"
+          value={Number(kickoff)}
+          onChange={e => setKickoff(BigInt(e.target.value))}
           placeholder="Kickoff"
         />
         <input
-          type="text"
-          value={deadline}
-          onChange={e => setDeadline(parseInt(e.target.value))}
+          type="number"
+          value={Number(deadline)}
+          onChange={e => setDeadline(BigInt(e.target.value))}
           placeholder="Deadline"
         />
       </>
-      <button className="bg-blue-500 shadow-md p-4 rounded-xl w-full block" onClick={handleCreateElection}>Create Election</button>
+      <form onSubmit={handleCreateElection}>
+        <button type="submit" className="bg-blue-500 shadow-md p-4 rounded-xl w-full block">Create Election</button>
+      </form>
     </div>
   );
 }
