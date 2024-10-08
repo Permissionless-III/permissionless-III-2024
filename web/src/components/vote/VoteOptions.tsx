@@ -52,7 +52,7 @@ export function VoteOptions({
   const { data: candidates } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
     address: electionContractAddress as `0x${string}`,
-    functionName: "candidates",
+    functionName: "getCandidates",
   });
 
   console.log("candidates", candidates);

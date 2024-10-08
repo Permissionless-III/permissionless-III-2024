@@ -8,6 +8,7 @@ import {
 } from "@/constants/config";
 import { getTimeLeft } from "@/utils/dates";
 import { ClockIcon } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ElectionLink({
   electionId,
@@ -15,6 +16,7 @@ export default function ElectionLink({
   electionId: `0x${string}`;
 }) {
   // const [elections, setElections] = useState<Election[]>([]);
+  const { auth } = useAuth();
 
   const { data: electionContractAddress, error } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
@@ -34,8 +36,17 @@ export default function ElectionLink({
     functionName: "deadline",
   });
 
+  const { data: userVotes } = useReadContract({
+    ...ELECTION_CONTRACT_CONFIG,
+    address: electionContractAddress,
+    functionName: "votes",
+    args: auth?.id ? [auth?.id] : undefined,
+  });
+
   console.log("electionName", electionName);
   console.log("error", error);
+  console.log("userVotes", userVotes);
+
   // if (isLoading) return <div>Loading results...</div>;
   // if (isError) return <div>Error loading results</div>;
 
