@@ -5,9 +5,10 @@ export interface VoteResult {
 
 export interface Election {
   id: number;
-  results: string;
+  name: string;
   description: string;
+  results: string;
   kickoff: Date;
-  deadline: Date;
+  deadline: BigInt;
   candidates: string[];
 }

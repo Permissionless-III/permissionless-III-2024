@@ -7,7 +7,7 @@ export const siteConfig = {
 };
 
 export const ELECTION_FACTORY_CONTRACT_ADDRESS =
-  "0x12a4536E96ea3CaE13938639b1EaaC682Bb260d3";
+  "0x1Bd271E505DF4d5CA5A7cA9F780676c3edc7AF16";
 
 export const ELECTION_CONTRACT_ABI = [
   {
@@ -816,6 +816,19 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
         internalType: "bytes32",
         name: "",
         type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getAllElections",
+    outputs: [
+      {
+        internalType: "bytes32[]",
+        name: "",
+        type: "bytes32[]",
       },
     ],
     stateMutability: "view",
