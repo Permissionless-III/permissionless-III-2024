@@ -1,5 +1,5 @@
 import { ConnectKitButton } from "connectkit";
 
 export default function ConnectWalletButton() {
-  return <ConnectKitButton />;
+  return <ConnectKitButton theme="soft" />;
 }

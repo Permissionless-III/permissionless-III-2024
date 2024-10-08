@@ -4,7 +4,6 @@ import { VoteSubmission } from "./VoteSubmission";
 import VoteSuccess from "./VoteSuccess";
 import Kyc from "../Kyc";
 import { useAuth } from "@/hooks/useAuth";
-import { CloudCog } from "lucide-react";
 
 export default function Vote() {
   const [selectedOption, setSelectedOption] = useState<null | {

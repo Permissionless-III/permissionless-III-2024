@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
 import { cn } from "@/lib/utils";
+import { ClockIcon } from "lucide-react";
 
 type VoteOption = {
   name: string;
@@ -20,6 +21,14 @@ export function VoteOptions({
   //   ...CONTRACT_CONFIG,
   //   functionName: "candidates",
   // });
+
+  const { data: election } = useReadContract({
+    ...CONTRACT_CONFIG,
+    functionName: "getElection",
+    args: ["2"],
+  });
+
+  console.log("election", election);
 
   // const { data: electionName } = useReadContract({
   //   ...CONTRACT_CONFIG,
@@ -59,7 +68,11 @@ export function VoteOptions({
 
   return (
     <>
-      <h2 className="text-xl font-medium mb-6">{electionName}</h2>
+      <h2 className="text-xl font-medium mb-2">{electionName}</h2>
+      <span className="text-sm text-gray-400 font-normal inline-flex items-center mb-6">
+        <ClockIcon className="w-4 h-4 mr-1" />
+        Voting ends in 32 days
+      </span>
       <div className="flex flex-col gap-3 lg:gap-4">
         {electionOptions?.map((option: VoteOption, idx: number) => (
           <Button
