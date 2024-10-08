@@ -1,21 +1,19 @@
+import { CONTRACT_CONFIG } from "@/constant/config";
 import React, { useEffect, useState } from "react";
-import { erc20Abi } from "viem";
-import { useContractRead } from "wagmi";
+import { useReadContract } from "wagmi";
 
 export function VoteOptions({
   onOptionSelect,
 }: {
   onOptionSelect: (optionIdx: { index: number; name: string }) => void;
 }) {
-  // const { data: electionOptions, isError, isLoading } = useContractRead({
-  //   address: '0x123213', // contractAddress,
-  //   abi: erc20Abi,
-  //   functionName: "voteOptions",
+  // const { data: electionOptions } = useReadContract({
+  //   ...CONTRACT_CONFIG,
+  //   functionName: "candidates",
   // });
 
-  // const { data: electionName, isError, isLoading } = useContractRead({
-  //   address: '0x123213', // contractAddress,
-  //   abi: erc20Abi,
+  // const { data: electionName } = useReadContract({
+  //   ...CONTRACT_CONFIG,
   //   functionName: "name",
   // });
 
