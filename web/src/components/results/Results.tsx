@@ -11,7 +11,10 @@ const contractABI = [
 ];
 const contractAddress = "0x..."; // Your contract address
 
-const data = [{ option: "Candidate 1", votes: 1 }, { option: "Candidate 2", votes: 2 }];
+const data = [
+  { option: "Candidate 1", votes: 1 },
+  { option: "Candidate 2", votes: 2 },
+];
 
 export default function Results() {
   const [results, setResults] = useState<VoteResult[]>([]);
@@ -33,7 +36,7 @@ export default function Results() {
   // if (isError) return <div>Error loading results</div>;
 
   return (
-    <div>
+    <div className="min-w-[300px]">
       <h2>Voting Results</h2>
       {results.length === 0 ? (
         <p>No votes have been cast yet.</p>
