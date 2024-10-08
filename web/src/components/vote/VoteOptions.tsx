@@ -77,7 +77,7 @@ export function VoteOptions({
   return (
     <>
       <h2 className="text-xl font-medium mb-2">{electionName}</h2>
-      <span className="text-sm text-gray-400 font-normal inline-flex items-center mb-6">
+      <span className="text-sm text-gray-400 font-normal inline-flex items-center mb-8">
         <ClockIcon className="w-4 h-4 mr-1" />
         Voting ends in {getTimeLeft(deadline)}
       </span>

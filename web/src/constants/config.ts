@@ -781,11 +781,6 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
     name: "createElection",
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
         internalType: "address",
         name: "election",
         type: "address",
@@ -815,6 +810,25 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
         type: "uint256",
       },
     ],
+    name: "elections",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
     name: "getElection",
     outputs: [
       {
@@ -834,11 +848,6 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
         internalType: "address",
         name: "_factory",
         type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_electionId",
-        type: "uint256",
       },
       {
         internalType: "string",
@@ -890,11 +899,6 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
         internalType: "address",
         name: "_factory",
         type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_electionId",
-        type: "uint256",
       },
       {
         internalType: "string",
