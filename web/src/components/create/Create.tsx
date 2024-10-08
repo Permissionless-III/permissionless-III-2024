@@ -65,7 +65,7 @@ export default function Create() {
       </>
       <button
         type="submit"
-        className="bg-blue-500 shadow-md p-4 rounded-xl w-full block"
+        className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
         onClick={handleCreateElection}
       >
         Submit

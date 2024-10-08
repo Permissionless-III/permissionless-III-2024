@@ -3,6 +3,7 @@
 import { useReadContract } from "wagmi";
 import { ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
 import ElectionLink from "./ElectionLink";
+import Link from "next/link";
 
 export default function Elections() {
   // const [elections, setElections] = useState<Election[]>([]);
@@ -12,6 +13,9 @@ export default function Elections() {
     functionName: "getAllElections",
   });
 
+  const handleCreate = (): void => {
+    console.log('create election');
+  }
   console.log("elections", elections);
   console.log("error", error);
   // if (isLoading) return <div>Loading results...</div>;
@@ -23,13 +27,15 @@ export default function Elections() {
         <p>No elections have been created yet.</p>
       ) : (
         <>
-          <button
-            type="submit"
-            className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
-            onClick={() => console.log('create election')}
-          >
-            Create Election
-          </button>
+          <Link href="/create">
+            <button
+              type="submit"
+              className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
+              onClick={handleCreate}
+            >
+              Create Election
+            </button>
+          </Link>
           <div className="flex flex-col gap-4 h-full">
             {elections.map((electionId: `0x${string}`) => (
               <ElectionLink key={electionId} electionId={electionId} />
