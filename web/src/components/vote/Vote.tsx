@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { ArrowRightIcon, ChevronRightIcon } from "lucide-react";
+import { ArrowRightIcon, ChevronRightIcon, Link } from "lucide-react";
 import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 import Results from "../results/Results";
 import { useVid } from "@/hooks/useVid";
-import { useRouter } from "next/router";
-import Link from "next/link";
 
 export default function Vote() {
   const [selectedOption, setSelectedOption] = useState<null | {
@@ -45,8 +43,6 @@ export default function Vote() {
             <div className="mb-2">Your vote has been cast!</div>
             <Link
               className="font-medium text-primary-500 inline-flex items-center"
-              target="_blank"
-              rel="noopener noreferrer"
               href={`https://sepolia.etherscan.io/tx/${vid}`}
             >
               View on Block Explorer

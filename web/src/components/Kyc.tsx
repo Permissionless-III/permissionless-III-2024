@@ -52,7 +52,7 @@ export default function Kyc({
           // },
         }}
         options={{ addViewportTag: false, adaptIframeHeight: true }}
-        onMessage={(type, payload) => {
+        onMessage={(type: string, payload: any) => {
           console.log("onMessage", type, payload);
           if (
             type === "idCheck.onApplicantStatusChanged" &&
@@ -65,7 +65,7 @@ export default function Kyc({
             });
           }
         }}
-        onError={error => {
+        onError={(error: any) => {
           console.log("onError", error);
         }}
       />

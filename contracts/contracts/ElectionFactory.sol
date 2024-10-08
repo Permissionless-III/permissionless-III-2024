@@ -13,20 +13,30 @@ contract ElectionFactory is IElectionFactory, ElectionDeployer, NoDelegateCall {
     address public override owner;
 
     /// @inheritdoc IElectionFactory
+    address public registry;
+
+    /// @inheritdoc IElectionFactory
+    address public trustedSigner;
+
+    /// @inheritdoc IElectionFactory
     mapping(string => address) public override getElection;
 
-    constructor() {
+    constructor(address _registry, address _trustedSigner) {
+        require(_registry != address(0), 'invalid registry');
+        require(_trustedSigner != address(0), 'invalid trustedSigner');
+
         owner = msg.sender;
-        emit OwnerChanged(address(0), msg.sender);
+        registry = _registry;
+        trustedSigner = _trustedSigner;
     }
 
     /// @inheritdoc IElectionFactory
     function createElection(
-        string _uri,
-        string _name,
-        string _description,
-        string[] _candidateNames,
-        string[] _candidateDescriptions,
+        string calldata _uri,
+        string calldata _name,
+        string calldata _description,
+        string[] calldata _candidateNames,
+        string[] calldata _candidateDescriptions,
         uint256 _kickoff,
         uint256 _deadline
     ) external override noDelegateCall returns (address election) {
@@ -35,15 +45,17 @@ contract ElectionFactory is IElectionFactory, ElectionDeployer, NoDelegateCall {
         require(_deadline > _kickoff, 'deadline must be after kickoff');
 
         require(getElection[_name] == address(0));
-        election = deploy(address(this), token0, token1, fee, tickSpacing);
+        election = deploy(
+            address(this),
+            _uri,
+            _name,
+            _description,
+            _candidateNames,
+            _candidateDescriptions,
+            _kickoff,
+            _deadline
+        );
         getElection[_name] = election;
-        emit ElectionCreated(_name, election);
-    }
-
-    /// @inheritdoc IElectionFactory
-    function setOwner(address _owner) external override {
-        require(msg.sender == owner);
-        emit OwnerChanged(owner, _owner);
-        owner = _owner;
+        emit ElectionCreated(msg.sender, election);
     }
 }

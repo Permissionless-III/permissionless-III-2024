@@ -46,4 +46,18 @@ library SignatureVerifier {
             v := byte(0, mload(add(sig, 96)))
         }
     }
+
+    function formatMessage(string[2] memory strings) public pure returns (string memory) {
+        bytes memory result;
+
+        for (uint i = 0; i < strings.length; i++) {
+            result = abi.encodePacked(result, strings[i]);
+            // Add delimiter between strings, but not at the end
+            if (i < strings.length - 1) {
+                result = abi.encodePacked(result, ':');
+            }
+        }
+
+        return string(result);
+    }
 }

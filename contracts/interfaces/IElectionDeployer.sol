@@ -2,12 +2,12 @@
 pragma solidity >=0.5.0;
 
 interface IElectionDeployer {
-    function parameters()
+    function getParameters()
         external
         view
         returns (
             address _factory,
-            string memory _uri,
+            string calldata _uri,
             string memory _name,
             string memory _description,
             string[] memory _candidateNames,

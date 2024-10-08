@@ -12,15 +12,15 @@ import '../libraries/SignatureVerifier.sol';
 
 import '../interfaces/IRegistry.sol';
 
-contract Registry is IRegistry, Initializable, AccessControlUpgradeable, UUPSUpgradeable {
+contract Registry is IRegistry {
     /*///////////////////////////////////////////////////////////////
                                 State
     //////////////////////////////////////////////////////////////*/
-    bytes32 public constant UPGRADER_ROLE = keccak256('UPGRADER_ROLE');
 
-    address private trusted_signer;
+    address private trustedSigner;
 
-    mapping(bytes => Types.Voter) public registered_voters;
+    mapping(bytes => Types.Voter) public registeredVoters;
+    uint256 public totalRegistered;
 
     event VoterRegistration();
 
@@ -28,19 +28,8 @@ contract Registry is IRegistry, Initializable, AccessControlUpgradeable, UUPSUpg
                     Constructor, Initializer, Modifiers
     //////////////////////////////////////////////////////////////*/
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
-
-    function initialize(address defaultAdmin, address upgrader, address _trusted_signer) public initializer {
-        __AccessControl_init();
-        __UUPSUpgradeable_init();
-
-        trusted_signer = _trusted_signer;
-
-        _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
-        _grantRole(UPGRADER_ROLE, upgrader);
+    constructor(address _trustedSigner) {
+        trustedSigner = _trustedSigner;
     }
 
     /*///////////////////////////////////////////////////////////////
@@ -48,7 +37,7 @@ contract Registry is IRegistry, Initializable, AccessControlUpgradeable, UUPSUpg
     //////////////////////////////////////////////////////////////*/
 
     function voter(string calldata _did) external view returns (Types.Voter memory) {
-        return registered_voters[bytes(_did)];
+        return registeredVoters[bytes(_did)];
     }
 
     // function total_registered() external view returns (uint) {
@@ -59,19 +48,17 @@ contract Registry is IRegistry, Initializable, AccessControlUpgradeable, UUPSUpg
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
-    function register(
-        string calldata _did,
-        string calldata _message,
-        bytes calldata _signature
-    ) external returns (Types.Voter memory) {
-        require(SignatureVerifier.verify(_message, _signature, trusted_signer) == true, 'invalid signature');
+    function register(string memory _did, bytes calldata _signature) external returns (Types.Voter memory) {
+        string memory message = SignatureVerifier.formatMessage([_did, '']);
+        require(SignatureVerifier.verify(message, _signature, trustedSigner) == true, 'invalid signature');
 
         require(bytes(_did).length != 0, 'invalid did');
         // require(voter_exists[bytes(_did)] == false, 'voter exists');
 
-        Types.Voter memory voter = Types.Voter(msg.sender, bytes(_did), block.timestamp);
+        Types.Voter memory voter = Types.Voter(msg.sender, _did, block.timestamp);
 
-        registered_voters[bytes(_did)] = voter;
+        registeredVoters[bytes(_did)] = voter;
+        totalRegistered += 1;
         emit VoterRegistration();
         return voter;
     }
@@ -79,6 +66,4 @@ contract Registry is IRegistry, Initializable, AccessControlUpgradeable, UUPSUpg
     /*///////////////////////////////////////////////////////////////
                             Internal functions
     //////////////////////////////////////////////////////////////*/
-
-    function _authorizeUpgrade(address newImplementation) internal override onlyRole(UPGRADER_ROLE) {}
 }

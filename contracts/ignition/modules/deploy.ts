@@ -4,20 +4,21 @@
 import { buildModule } from '@nomicfoundation/hardhat-ignition/modules'
 
 export default buildModule('RegistryModule', (m) => {
-  // const typesLibrary = m.library('Types')
   const signatureVerifierLibrary = m.library('SignatureVerifier')
 
-  const registry = m.contract('Registry', [], {
+  const trustedSigner = m.getAccount(0)
+
+  const registry = m.contract('Registry', [trustedSigner], {
     libraries: {
       SignatureVerifier: signatureVerifierLibrary,
     },
   })
 
-  const election = m.contract('Election', [], {
+  const electionFactory = m.contract('ElectionFactory', [registry, trustedSigner], {
     libraries: {
       SignatureVerifier: signatureVerifierLibrary,
     },
   })
 
-  return { registry, election, signatureVerifierLibrary }
+  return { registry, electionFactory, signatureVerifierLibrary }
 })
