@@ -6,32 +6,39 @@ import { ELECTION_FACTORY_CONTRACT_ABI, ELECTION_FACTORY_CONTRACT_CONFIG } from 
 import { useWriteContract } from "wagmi";
 
 export default function Create() {
-  const [uri, setUri] = useState<number>(0);
+  const [uri, setUri] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   useState<string>("");
   const [kickoff, setKickoff] = useState<bigint>(BigInt(0));
   const [deadline, setDeadline] = useState<bigint>(BigInt(0));
 
-  const { writeContract, isSuccess, isError, error } = useWriteContract();
+  const { writeContract, data, isSuccess, isError, error } = useWriteContract();
+
+  console.log(data);
+  console.log(isSuccess, isError, error);
 
   function handleCreateElection(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     console.log(name, description, kickoff, deadline);
     writeContract({
-      abi: ELECTION_FACTORY_CONTRACT_ABI,
+      ...ELECTION_FACTORY_CONTRACT_CONFIG,
       functionName: "createElection",
-      args: ["info", name, description, kickoff, deadline],
-      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      args: [uri, name, description, kickoff, deadline],
+      address: "0x12a4536E96ea3CaE13938639b1EaaC682Bb260d3",
     });
-    console.log(isSuccess, isError, error);
-    console.log("Election created");
   }
 
   return (
     <div>
       <h2>Create Election</h2>
       <>
+        <input
+          type="text"
+          value={uri}
+          onChange={e => setUri(e.target.value)}
+          placeholder="URI"
+        />
         <input
           type="text"
           value={name}
