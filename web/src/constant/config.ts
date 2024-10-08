@@ -6,7 +6,7 @@ export const siteConfig = {
   url: "https://tsnext-tw.thcl.dev",
 };
 
-export const CONTRACT_ADDRESS = "0x123213";
+export const CONTRACT_ADDRESS = "0x53AF7b961b88fA5E8b2dd3C1C25bCf2Bbf9C4BCB";
 
 export const CONTRACT_ABI = [
   {
@@ -1104,4 +1104,5 @@ export const CONTRACT_ABI = [
 export const CONTRACT_CONFIG = {
   address: CONTRACT_ADDRESS,
   abi: CONTRACT_ABI,
+  chainId: 11155111,
 } as const;

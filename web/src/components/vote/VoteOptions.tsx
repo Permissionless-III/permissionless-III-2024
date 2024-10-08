@@ -3,6 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
 
+type VoteOption = {
+  name: string;
+  description: string;
+};
+
 export function VoteOptions({
   onOptionSelect,
 }: {
@@ -45,14 +50,14 @@ export function VoteOptions({
   return (
     <div>
       <h2 className="text-xl font-medium mb-4">{electionName}</h2>
-      {electionOptions.map((option, idx) => (
+      {electionOptions?.map((option: VoteOption, idx: number) => (
         <Button
           className="block w-full mb-4"
           size="base"
           key={idx}
           onClick={() => onOptionSelect({ index: idx, name: option.name })}
         >
-          {option.name} ({option.description})
+          {option?.name} ({option?.description})
         </Button>
       ))}
     </div>

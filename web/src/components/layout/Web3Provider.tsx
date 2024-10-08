@@ -1,16 +1,16 @@
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { mainnet } from "wagmi/chains";
+import { mainnet, sepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
 const config = createConfig(
   getDefaultConfig({
     // Your dApps chains
-    chains: [mainnet],
+    chains: [sepolia],
     transports: {
       // RPC URL for each chain
-      [mainnet.id]: http(
-        `https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_ID}`
+      [sepolia.id]: http(
+        `https://polygon-amoy.infura.io/v3/e302133655264f39baaf743ce6554333`
       ),
     },
 
@@ -19,12 +19,12 @@ const config = createConfig(
       .NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
 
     // Required App Info
-    appName: "Your App Name",
+    appName: "Permissionless Voting",
 
     // Optional App Info
     appDescription: "Your App Description",
-    appUrl: "https://family.co", // your app's url
-    appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
+    // appUrl: "https://family.co", // your app's url
+    // appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
   })
 );
 
