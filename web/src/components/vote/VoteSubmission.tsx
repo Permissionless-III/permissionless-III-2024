@@ -11,7 +11,7 @@ export function VoteSubmission({
     index: number;
     name: string;
   };
-  onSubmitted: (vid: string) => void;
+  onSubmitted: () => void;
 }) {
   const [isVoting, setIsVoting] = useState(false);
 
@@ -34,7 +34,7 @@ export function VoteSubmission({
     //   args: ["vid-string", BigInt(selectedOption.index)],
     // });
 
-    onSubmitted("vid-string");
+    onSubmitted();
     setIsVoting(false);
   };
 
