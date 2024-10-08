@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import SumsubWebSdk from "@sumsub/websdk-react";
-import { generateAccessToken } from "@/app/actions/kyc";
+import { generateAccessToken, checkDuplication } from "@/app/actions/kyc";
 
 export default function Kyc({
   handleVerified,
@@ -10,8 +10,6 @@ export default function Kyc({
   handleVerified: () => void;
 }) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
-
-  // idCheck.onApplicantStatusChanged
 
   useEffect(() => {
     generateAccessToken("basic-kyc-level", "12312").then((token: string) => {
@@ -37,6 +35,7 @@ export default function Kyc({
             (payload as any).reviewResult.reviewAnswer === "GREEN"
           ) {
             handleVerified();
+            checkDuplication("<insert_applicant_id_here>");
           }
         }}
         onError={error => {
