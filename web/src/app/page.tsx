@@ -27,7 +27,11 @@ export default function HomePage() {
       </Head>
       <section className="bg-white">
         <div className="layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center">
-          {isVerified ? <Vote /> : <Kyc />}
+          {isVerified ? (
+            <Vote />
+          ) : (
+            <Kyc handleVerified={() => setIsVerified(true)} />
+          )}
         </div>
       </section>
     </main>

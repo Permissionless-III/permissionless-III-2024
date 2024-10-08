@@ -2,7 +2,10 @@
 
 import crypto from "crypto";
 
-export async function generateAccessToken(levelName: string, userId: string): Promise<string> {
+export async function generateAccessToken(
+  levelName: string,
+  userId: string
+): Promise<string> {
   const SUMSUB_TOKEN = process.env.SUMSUB_TOKEN;
   const SUMSUB_SECRET_KEY = process.env.SUMSUB_SECRET_KEY;
 

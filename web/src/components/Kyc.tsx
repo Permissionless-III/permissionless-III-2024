@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import SumsubWebSdk from "@sumsub/websdk-react";
 import { generateAccessToken } from "@/app/actions/kyc";
 
-export default function Kyc() {
+export default function Kyc({
+  handleVerified,
+}: {
+  handleVerified: () => void;
+}) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   // idCheck.onApplicantStatusChanged
@@ -28,6 +32,12 @@ export default function Kyc() {
         options={{ addViewportTag: false, adaptIframeHeight: true }}
         onMessage={(type, payload) => {
           console.log("onMessage", type, payload);
+          if (
+            type === "idCheck.onApplicantStatusChanged" &&
+            (payload as any).reviewResult.reviewAnswer === "GREEN"
+          ) {
+            handleVerified();
+          }
         }}
         onError={error => {
           console.log("onError", error);
