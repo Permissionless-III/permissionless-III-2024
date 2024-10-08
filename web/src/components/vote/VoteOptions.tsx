@@ -23,13 +23,13 @@ export function VoteOptions({
   onOptionSelect: (optionIdx: { index: number; name: string }) => void;
   selectedOptionIdx: number;
 }) {
-  const { electionId } = useParams();
+  const { electionId: electionContractAddress } = useParams();
 
-  const { data: electionContractAddress } = useReadContract({
-    ...ELECTION_FACTORY_CONTRACT_CONFIG,
-    functionName: "getElection",
-    args: [keccak256(encodePacked(["string"], [electionId as string]))],
-  });
+  // const { data: electionContractAddress } = useReadContract({
+  //   ...ELECTION_FACTORY_CONTRACT_CONFIG,
+  //   functionName: "getElection",
+  //   args: [keccak256(encodePacked(["string"], [electionId as string]))],
+  // });
 
   console.log("getElection result", electionContractAddress);
 
@@ -39,11 +39,15 @@ export function VoteOptions({
     functionName: "name",
   });
 
+  console.log("electionName", electionName);
+
   const { data: electionDeadline } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
     address: electionContractAddress as `0x${string}`,
     functionName: "deadline",
   });
+
+  console.log("electionDeadline", electionDeadline);
 
   const { data: candidates } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
@@ -57,42 +61,40 @@ export function VoteOptions({
   // name, description, kickoff, deadline
   // const electionName = "2024 US Presidential Election";
 
-  const electionOptions = [
-    {
-      name: "Donald J. Trump",
-      description: "Republican candidate",
-    },
-    {
-      name: "Kamala Harris",
-      description: "Democratic candidate",
-    },
-    {
-      name: "Kamala Harris",
-      description: "Democratic candidate",
-    },
-    {
-      name: "Kamala Harris",
-      description: "Democratic candidate",
-    },
-    {
-      name: "Kamala Harris",
-      description: "Democratic candidate",
-    },
-  ];
+  // const electionOptions = [
+  //   {
+  //     name: "Donald J. Trump",
+  //     description: "Republican candidate",
+  //   },
+  //   {
+  //     name: "Kamala Harris",
+  //     description: "Democratic candidate",
+  //   },
+  //   {
+  //     name: "Kamala Harris",
+  //     description: "Democratic candidate",
+  //   },
+  //   {
+  //     name: "Kamala Harris",
+  //     description: "Democratic candidate",
+  //   },
+  //   {
+  //     name: "Kamala Harris",
+  //     description: "Democratic candidate",
+  //   },
+  // ];
 
   const deadline = electionDeadline ? Number(electionDeadline) * 1000 : 0;
-
-  if (!electionOptions) return null;
 
   return (
     <>
       <h2 className="text-xl font-medium mb-2">{electionName}</h2>
       <span className="text-sm text-gray-400 font-normal inline-flex items-center mb-8">
         <ClockIcon className="w-4 h-4 mr-1" />
-        Voting ends in {getTimeLeft(deadline)}
+        Voting ends in {deadline && getTimeLeft(deadline)}
       </span>
       <div className="flex flex-col gap-3 lg:gap-4">
-        {electionOptions?.map((option: VoteOption, idx: number) => (
+        {candidates?.map((option: any, idx: number) => (
           <Button
             variant="light"
             className={cn("block w-full", {

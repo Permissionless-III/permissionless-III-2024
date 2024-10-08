@@ -41,14 +41,21 @@ export default function ElectionLink({
 
   return (
     <Link
-      className="bg-white shadow-md p-4 rounded-xl w-full block"
+      className="bg-white shadow-md rounded-xl w-full block overflow-hidden"
       href={`/vote/${electionContractAddress}`}
     >
-      <div>{electionName}</div>
+      <div className="min-h-[40px] p-3 bg-white text-left text-lg">
+        {electionName}
+      </div>
       {/* <div>{election.description}</div> */}
-      <div className="flex items-center text-gray-500 text-sm">
-        <ClockIcon className="w-4 h-4 inline-block mr-1" />
-        Voting closes in {getTimeLeft(Number(deadline) * 1000)}
+      <div className="flex items-center justify-between bg-primary-600 text-xs p-3">
+        <div className="flex items-center text-white">
+          <ClockIcon className="w-3 h-3 inline-block mr-1" />
+          Voting closes in {getTimeLeft(Number(deadline) * 1000)}
+        </div>
+        <div className="rounded-lg bg-white font-medium text-primary-600 px-3 py-2 text-md">
+          Vote
+        </div>
       </div>
     </Link>
   );

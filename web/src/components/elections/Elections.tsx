@@ -22,7 +22,7 @@ export default function Elections() {
       {!elections || elections?.length === 0 ? (
         <p>No elections have been created yet.</p>
       ) : (
-        <div className="flex flex-col gap-3 h-full">
+        <div className="flex flex-col gap-4 h-full">
           {elections.map((electionId: `0x${string}`) => (
             <ElectionLink key={electionId} electionId={electionId} />
           ))}
