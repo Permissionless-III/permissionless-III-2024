@@ -2,19 +2,15 @@
 
 import React, { useState, useEffect } from "react";
 import { useContractRead } from "wagmi";
-import { VoteResult } from "../types/types";
+import { VoteResult } from "@/components/types/types";
 import BarGraph from "./BarGraph";
-
+import { resultsData } from "@/app/data/results";
 // Replace with your actual contract ABI and address
 const contractABI = [
   /* Your contract ABI here */
 ];
 const contractAddress = "0x..."; // Your contract address
 
-const data = [
-  { option: "Candidate 1", votes: 1 },
-  { option: "Candidate 2", votes: 2 },
-];
 
 export default function Results() {
   const [results, setResults] = useState<VoteResult[]>([]);
@@ -26,11 +22,11 @@ export default function Results() {
   // });
 
   useEffect(() => {
-    if (data) {
+    if (resultsData) {
       // Assuming the contract returns an array of objects with option and votes
-      setResults(data);
+      setResults(resultsData);
     }
-  }, [data]);
+  }, [resultsData]);
 
   // if (isLoading) return <div>Loading results...</div>;
   // if (isError) return <div>Error loading results</div>;
