@@ -24,26 +24,8 @@ export function VoteOptions({
   selectedOptionIdx: number;
 }) {
   const { electionId } = useParams();
-  // const { data: electionOptions } = useReadContract({
-  //   ...CONTRACT_CONFIG,
-  //   functionName: "candidates",
-  // });
 
-  // console.log("Config", CONTRACT_CONFIG.address);
-
-  console.log(
-    "electionId",
-    electionId,
-    keccak256(encodePacked(["string"], [electionId as string]))
-  );
-
-  const {
-    data: electionContractAddress,
-    isLoading,
-    isError,
-    error,
-    isLoadingError,
-  } = useReadContract({
+  const { data: electionContractAddress } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
     args: [keccak256(encodePacked(["string"], [electionId as string]))],
@@ -63,7 +45,13 @@ export function VoteOptions({
     functionName: "deadline",
   });
 
-  console.log("deadline", electionDeadline);
+  const { data: candidates } = useReadContract({
+    ...ELECTION_CONTRACT_CONFIG,
+    address: electionContractAddress as `0x${string}`,
+    functionName: "candidates",
+  });
+
+  console.log("candidates", candidates);
   // console.log("electionOptions", electionOptions);
 
   // name, description, kickoff, deadline
@@ -92,7 +80,7 @@ export function VoteOptions({
     },
   ];
 
-  const deadline = Date.now() + 30 * 24 * 60 * 60 * 1000;
+  const deadline = electionDeadline ? Number(electionDeadline) * 1000 : 0;
 
   if (!electionOptions) return null;
 
