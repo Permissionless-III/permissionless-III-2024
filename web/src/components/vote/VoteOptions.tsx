@@ -28,10 +28,18 @@ export function VoteOptions({
 
   // console.log("Config", CONTRACT_CONFIG.address);
 
+  console.log(
+    "electionId",
+    electionId,
+    keccak256(encodePacked(["string"], [electionId as string]))
+  );
+
   const { data: election } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
-    args: [keccak256(encodePacked(["string"], [electionId as string]))],
+    args: [
+      "0x85cc825a98ec217d960f113f5f80a95d7fd18e3725d37df428eb14f880bdfc12",
+    ] as const,
   });
 
   console.log("getElection result", election);

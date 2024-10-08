@@ -34,7 +34,13 @@ export default function Kyc() {
         <ConnectWalletButton />
       </div>
     );
-  if (!accessToken) return "Loading...";
+
+  if (!accessToken)
+    return (
+      <div className="h-full flex justify-center items-center text-gray-400">
+        Loading...
+      </div>
+    );
 
   return (
     <div className="w-full mx-auto">
