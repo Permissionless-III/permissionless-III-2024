@@ -33,30 +33,35 @@ export default function Create() {
       <h2>Create Election</h2>
       <>
         <input
+          className="bg-white shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-lg"
           type="text"
           value={uri}
           onChange={e => setUri(e.target.value)}
           placeholder="URI"
         />
         <input
+          className="bg-white shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-lg"
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
           placeholder="Election Name"
         />
         <input
+          className="bg-white shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-lg"
           type="text"
           value={description}
           onChange={e => setDescription(e.target.value)}
           placeholder="Election Description"
         />
         <input
+          className="bg-white shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-lg"
           type="number"
           value={Number(kickoff)}
           onChange={e => setKickoff(BigInt(e.target.value))}
           placeholder="Kickoff"
         />
         <input
+          className="bg-white shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-lg"
           type="number"
           value={Number(deadline)}
           onChange={e => setDeadline(BigInt(e.target.value))}
