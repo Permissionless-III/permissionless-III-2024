@@ -25,19 +25,17 @@ export default function HomePage() {
   const [isVerified, setIsVerified] = useState(false);
 
   return (
-    <main>
+    <>
       <Head>
         <title>Permissionless III Hackathon Voting</title>
       </Head>
-      <section className="bg-white">
-        <div className="layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center">
-          {isVerified ? (
-            <Vote />
-          ) : (
-            <Kyc handleVerified={() => setIsVerified(true)} />
-          )}
-        </div>
-      </section>
-    </main>
+      <>
+        {isVerified ? (
+          <Vote />
+        ) : (
+          <Kyc handleVerified={() => setIsVerified(true)} />
+        )}
+      </>
+    </>
   );
 }
