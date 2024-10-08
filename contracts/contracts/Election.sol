@@ -2,44 +2,32 @@
 // Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20;
 
-import '@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155SupplyUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol';
-import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
-import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
+import '@openzeppelin/contracts/token/ERC1155/ERC1155.sol';
+import '@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol';
 
 // Libs
 import '../libraries/Types.sol';
 import '../libraries/SignatureVerifier.sol';
+import '../interfaces/IElectionDeployer.sol';
 
 import '../interfaces/IRegistry.sol';
 import './NoDelegateCall.sol';
 import '../interfaces/IElection.sol';
 
-contract Election is
-    IElection,
-    Initializable,
-    ERC1155Upgradeable,
-    ERC1155SupplyUpgradeable,
-    AccessControlUpgradeable,
-    UUPSUpgradeable,
-    NoDelegateCall
-{
+contract Election is IElection, ERC1155, ERC1155Supply, NoDelegateCall {
     /*///////////////////////////////////////////////////////////////
                                 State
     //////////////////////////////////////////////////////////////*/
-    bytes32 public constant UPGRADER_ROLE = keccak256('UPGRADER_ROLE');
 
-    address public registry;
-    address private trusted_signer;
-
-    bytes32 public name;
-    bytes32 public description;
+    string public name;
+    string public description;
     uint256 public kickoff;
     uint256 public deadline;
+    address private trustedSigner;
 
     Types.Candidate[] public candidates;
-    // Types.Vote[] public votes;
+
+    //
     mapping(bytes => Types.Vote) public votes;
 
     event SubmitVote();
@@ -48,36 +36,15 @@ contract Election is
                     Constructor, Initializer, Modifiers
     //////////////////////////////////////////////////////////////*/
 
-    /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
+    constructor() ERC1155() {
+        (_factory, name, description, kickoff, deadline, ) = IElectionDeployer(msg.sender).parameters();
 
-    function initialize(
-        address defaultAdmin,
-        address upgrader,
-        string memory uri,
-        address _registry,
-        // Types.Candidate[] calldata _candidates,
-        uint256 _kickoff,
-        uint256 _deadline,
-        address _trusted_signer
-    ) public initializer {
-        require(_deadline > _kickoff, 'deadline must be after kickoff');
-
-        __ERC1155_init(uri);
-        __ERC1155Supply_init();
-        __AccessControl_init();
-        __UUPSUpgradeable_init();
-
-        registry = _registry;
-        trusted_signer = _trusted_signer;
         kickoff = _kickoff;
         deadline = _deadline;
-        // candidates = _candidates;
 
-        _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
-        _grantRole(UPGRADER_ROLE, upgrader);
+        for (uint i = 0; i < _candidateNames.length; i++) {
+            candidates.push(Types.Candidate({name: _candidateNames[i], description: _candidateDescriptions[i]}));
+        }
     }
 
     modifier is_active() {
@@ -89,20 +56,24 @@ contract Election is
                             View functions
     //////////////////////////////////////////////////////////////*/
 
+    function totalVotes() {
+        return votes.length;
+    }
+
     /*///////////////////////////////////////////////////////////////
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
     function vote(
         string calldata _did,
-        uint256 _candidate,
+        uint256 _candidateIndex,
         string calldata _message,
         bytes calldata _signature
     ) external is_active {
         _vote(_did, _candidate, _message, _signature);
     }
 
-    function register_and_vote(
+    function registerAndVote(
         string calldata _did,
         uint256 _candidate,
         string calldata _message,
