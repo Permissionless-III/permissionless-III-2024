@@ -1,6 +1,7 @@
 import { CONTRACT_CONFIG } from "@/constant/config";
 import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
+import Button from "@/components/buttons/Button";
 
 export function VoteOptions({
   onOptionSelect,
@@ -45,13 +46,14 @@ export function VoteOptions({
     <div>
       <h2 className="text-xl font-medium mb-4">{electionName}</h2>
       {electionOptions.map((option, idx) => (
-        <button
+        <Button
+          className="block w-full mb-4"
+          size="base"
           key={idx}
           onClick={() => onOptionSelect({ index: idx, name: option.name })}
-          className="block my-2 bg-gray-200 rounded-xl py-4 px-6 w-full "
         >
           {option.name} ({option.description})
-        </button>
+        </Button>
       ))}
     </div>
   );

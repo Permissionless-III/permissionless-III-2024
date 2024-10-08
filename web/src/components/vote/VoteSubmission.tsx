@@ -1,14 +1,17 @@
 import React, { useWriteContract, useWaitForTransaction } from "wagmi";
 import { useState } from "react";
 import { CONTRACT_CONFIG } from "@/constant/config";
+import Button from "@/components/buttons/Button";
 
 export function VoteSubmission({
   selectedOption,
+  onSubmitted,
 }: {
   selectedOption: {
     index: number;
     name: string;
   };
+  onSubmitted: (vid: string) => void;
 }) {
   const [isVoting, setIsVoting] = useState(false);
 
@@ -24,11 +27,15 @@ export function VoteSubmission({
 
   const handleVote = async () => {
     setIsVoting(true);
+
     // const result = await writeContract({
     //   ...CONTRACT_CONFIG,
     //   functionName: "vote",
     //   args: ["vid-string", BigInt(selectedOption.index)],
     // });
+
+    onSubmitted("vid-string");
+    setIsVoting(false);
   };
 
   // if (isLoading || isTransactionLoading) return <div>Processing...</div>;
@@ -40,13 +47,15 @@ export function VoteSubmission({
       <p className="text-sm font-medium mb-4">
         Selected option: {selectedOption.name}
       </p>
-      <button
+      <Button
         onClick={handleVote}
+        isLoading={isVoting}
         disabled={isVoting || !selectedOption}
-        className="bg-black text-white px-6 py-4 rounded-xl block w-full"
+        className="block w-full"
+        size="base"
       >
         Submit Vote
-      </button>
+      </Button>
     </>
   );
 }
