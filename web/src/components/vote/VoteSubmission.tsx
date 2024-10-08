@@ -36,17 +36,17 @@ export function VoteSubmission({
   // if (isSuccess) return <div>Vote submitted successfully!</div>;
 
   return (
-    <div>
-      <p className="text-sm font-medium mb-4 mt-8">
+    <>
+      <p className="text-sm font-medium mb-4">
         Selected option: {selectedOption.name}
       </p>
       <button
         onClick={handleVote}
         disabled={isVoting || !selectedOption}
-        className="bg-black text-white px-4 py-2 rounded block w-full"
+        className="bg-black text-white px-6 py-4 rounded-xl block w-full"
       >
         Submit Vote
       </button>
-    </div>
+    </>
   );
 }
