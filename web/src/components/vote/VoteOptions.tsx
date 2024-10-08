@@ -4,7 +4,7 @@ import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
 import { cn } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
-import { parseEther } from "viem";
+import { encodePacked, keccak256, parseEther } from "viem";
 import { useParams } from "next/navigation";
 import { getTimeLeft } from "@/utils/dates";
 
@@ -31,10 +31,10 @@ export function VoteOptions({
   const { data: election } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
-    args: [electionId],
+    args: [keccak256(encodePacked(["string"], [electionId as string]))],
   });
 
-  console.log("election", election);
+  console.log("getElection result", election);
 
   // const { data: electionName } = useReadContract({
   //   ...CONTRACT_CONFIG,
