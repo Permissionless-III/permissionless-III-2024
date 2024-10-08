@@ -1,19 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
-abstract contract SignatureVerifier {
-    // The address that is allowed to sign messages (e.g., your backend/frontend key pair)
-    address public trustedSigner;
-
-    constructor(address _trustedSigner) {
-        trustedSigner = _trustedSigner;
-    }
-
-    modifier is_verified(bytes calldata _signature) {
-        require(verify('', _signature) == true, 'invalid signature');
-        _;
-    }
-
+library SignatureVerifier {
     function getMessageHash(string memory message) public pure returns (bytes32) {
         // Hash the message to match the message signed in the frontend
         return keccak256(abi.encodePacked(message));
@@ -27,11 +15,15 @@ abstract contract SignatureVerifier {
         return keccak256(abi.encodePacked('\x19Ethereum Signed Message:\n32', _messageHash));
     }
 
-    function verify(string memory _message, bytes memory _signature) public view returns (bool) {
+    function verify(
+        string memory _message,
+        bytes memory _signature,
+        address _expectedSigner
+    ) public pure returns (bool) {
         bytes32 messageHash = getMessageHash(_message);
         bytes32 ethSignedMessageHash = getEthSignedMessageHash(messageHash);
 
-        return recoverSigner(ethSignedMessageHash, _signature) == trustedSigner;
+        return recoverSigner(ethSignedMessageHash, _signature) == _expectedSigner;
     }
 
     function recoverSigner(bytes32 _ethSignedMessageHash, bytes memory _signature) public pure returns (address) {
