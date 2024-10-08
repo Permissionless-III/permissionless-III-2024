@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import SumsubWebSdk from "@sumsub/websdk-react";
-import { generateAccessToken } from "@/app/actions/kyc";
+import { generateAccessToken, checkDuplication } from "@/app/actions/kyc";
 
 export default function Kyc() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -26,8 +26,10 @@ export default function Kyc() {
         options={{ addViewportTag: false, adaptIframeHeight: true }}
         onMessage={(type, payload) => {
           console.log("onMessage", type, payload);
+
+          checkDuplication("<insert_applicant_id_here>");
         }}
-        onError={error => {
+        onError={(error) => {
           console.log("onError", error);
         }}
       />
