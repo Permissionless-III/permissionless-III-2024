@@ -39,7 +39,7 @@ export default function Kyc({
   if (!accessToken) return "Loading...";
 
   return (
-    <div className="w-full max-w-xl mx-auto">
+    <div className="w-full mx-auto">
       <SumsubWebSdk
         accessToken={accessToken}
         expirationHandler={() => {
