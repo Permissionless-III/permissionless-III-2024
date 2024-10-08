@@ -25,7 +25,7 @@ export default function Create() {
       ...ELECTION_FACTORY_CONTRACT_CONFIG,
       functionName: "createElection",
       args: [uri, name, description, kickoff, deadline],
-      address: "0x12a4536E96ea3CaE13938639b1EaaC682Bb260d3",
+      address: "0x1Bd271E505DF4d5CA5A7cA9F780676c3edc7AF16",
     });
   }
 
