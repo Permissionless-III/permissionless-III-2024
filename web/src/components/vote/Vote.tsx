@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { ArrowRightIcon, ChevronRightIcon, Link } from "lucide-react";
+import Link from "next/link";
+import { ArrowRightIcon } from "lucide-react";
 import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 import Results from "../results/Results";

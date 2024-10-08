@@ -56,7 +56,7 @@ export default function Results() {
               <th className="text-xs uppercase text-gray-400 font-normal">
                 Votes
               </th>
-              <th className="text-xs uppercase text-gray-400 font-normal">
+              <th className="text-xs uppercase text-gray-400 font-normal text-right">
                 Percent
               </th>
             </tr>
@@ -67,7 +67,7 @@ export default function Results() {
                 <tr>
                   <td className="pt-3 font-medium">{result.option}</td>
                   <td className="pt-3">{result.votes}</td>
-                  <td className="pt-3 font-medium">
+                  <td className="pt-3 font-medium text-right">
                     {getPercentage(result.votes)}
                   </td>
                 </tr>
