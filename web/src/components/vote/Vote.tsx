@@ -4,6 +4,7 @@ import { VoteOptions } from "./VoteOptions";
 import { VoteSubmission } from "./VoteSubmission";
 import Results from "../results/Results";
 import { useVid } from "@/hooks/useVid";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 export default function Vote() {
