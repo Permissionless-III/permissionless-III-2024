@@ -10,7 +10,7 @@ const config = createConfig(
     transports: {
       // RPC URL for each chain
       [sepolia.id]: http(
-        `https://polygon-amoy.infura.io/v3/e302133655264f39baaf743ce6554333`
+        `https://sepolia.infura.io/v3/e302133655264f39baaf743ce6554333`
       ),
     },
 

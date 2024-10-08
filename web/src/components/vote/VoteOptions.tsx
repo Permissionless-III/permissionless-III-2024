@@ -34,15 +34,23 @@ export function VoteOptions({
     keccak256(encodePacked(["string"], [electionId as string]))
   );
 
-  const { data: election } = useReadContract({
+  const {
+    data: election,
+    isLoading,
+    isError,
+    error,
+    isLoadingError,
+  } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
-    args: [
-      "0x85cc825a98ec217d960f113f5f80a95d7fd18e3725d37df428eb14f880bdfc12",
-    ] as const,
+    args: [keccak256(encodePacked(["string"], [electionId as string]))],
   });
 
   console.log("getElection result", election);
+  console.log("isLoading", isLoading);
+  console.log("isError", isError);
+  console.log("error", error);
+  console.log("isLoadingError", isLoadingError);
 
   // const { data: electionName } = useReadContract({
   //   ...CONTRACT_CONFIG,

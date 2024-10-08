@@ -7,7 +7,7 @@ export const siteConfig = {
 };
 
 export const ELECTION_FACTORY_CONTRACT_ADDRESS =
-  "0x470dFfab86e2F2259bBb688317D59A94F4223412";
+  "0x12a4536E96ea3CaE13938639b1EaaC682Bb260d3";
 
 export const ELECTION_CONTRACT_ABI = [
   {
