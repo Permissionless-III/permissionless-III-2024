@@ -1,4 +1,4 @@
-import { CONTRACT_CONFIG } from "@/constant/config";
+import { CONTRACT_CONFIG } from "@/constants/config";
 import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
@@ -18,13 +18,13 @@ export function VoteOptions({
   //   functionName: "candidates",
   // });
 
-  // const { data: electionName } = useReadContract({
-  //   ...CONTRACT_CONFIG,
-  //   functionName: "name",
-  // });
+  const { data: electionName } = useReadContract({
+    ...CONTRACT_CONFIG,
+    functionName: "name",
+  });
 
   // name, description, kickoff, deadline
-  const electionName = "2024 US Presidential Election";
+  // const electionName = "2024 US Presidential Election";
 
   const electionOptions = [
     {
