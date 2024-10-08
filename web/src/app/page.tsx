@@ -12,6 +12,7 @@ import "@/lib/env";
  * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
  */
 import Vote from "@/components/vote/Vote";
+import Elections from "@/components/elections/Elections";
 
 const Kyc = dynamic(() => import("@/components/Kyc"), {
   ssr: false,
@@ -32,6 +33,7 @@ export default function HomePage() {
       <>
         {isVerified ? (
           <Vote />
+          // <Elections />
         ) : (
           <Kyc handleVerified={() => setIsVerified(true)} />
         )}

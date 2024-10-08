@@ -11,16 +11,6 @@ const contractABI = [
 ];
 const contractAddress = "0x..."; // Your contract address
 
-
-const divStyle = {
-  background: '#f4f4f4',
-  margin: '5px 0',
-  padding: '10px',
-  borderRadius: '5px',
-  transition: 'background 0.3s',
-  cursor: 'pointer'
-};
-
 export default function Elections() {
   const [elections, setElections] = useState<Election[]>([]);
 
@@ -50,19 +40,16 @@ export default function Elections() {
       {elections.length === 0 ? (
         <p>No elections have been created yet.</p>
       ) : (
-        <ul>
+        <>
           {elections.map((election) => (
-            <div key={election.id}
-              onClick={(e) => handleElectionClick(election)}
-              style={divStyle}>
-              <li>{election.results}</li>
-              <li>{election.description}</li>
-              <li>{election.kickoff.toDateString()}</li>
-              <li>{election.deadline.toDateString()}</li>
-              <li>{election.candidates.join(", ")}</li>
+            <div className="flex py-1">
+              <button className="bg-blue-100 p-4 rounded-md " key={election.id}
+                onClick={(e) => handleElectionClick(election)}>
+                <div>ID: {election.id}, Description: {election.description}</div>
+              </button>
             </div>
           ))}
-        </ul>
+        </>
       )
       }
     </div >
