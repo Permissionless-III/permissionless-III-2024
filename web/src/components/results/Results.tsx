@@ -11,7 +11,6 @@ const contractABI = [
 ];
 const contractAddress = "0x..."; // Your contract address
 
-
 export default function Results() {
   const [results, setResults] = useState<VoteResult[]>([]);
 
@@ -28,16 +27,66 @@ export default function Results() {
     }
   }, [resultsData]);
 
+  // const maxVotes = Math.max(...data.map(item => item.votes));
+
+  // const percentageFormatter = (value: number): string =>
+  //   `${((value / maxVotes) * 100).toFixed(1)}%`;
+
   // if (isLoading) return <div>Loading results...</div>;
   // if (isError) return <div>Error loading results</div>;
 
+  const getPercentage = (votes: number): string => {
+    const totalVotes = results.reduce((acc, curr) => acc + curr.votes, 0);
+    return `${((votes / totalVotes) * 100).toFixed(1)}%`;
+  };
+
   return (
     <div className="min-w-[300px]">
-      <h2>Voting Results</h2>
       {results.length === 0 ? (
-        <p>No votes have been cast yet.</p>
+        <p className="text-center text-gray-400">
+          No votes have been cast yet.
+        </p>
       ) : (
-        <BarGraph data={results} />
+        <table className="w-full text-left">
+          <thead>
+            <tr>
+              <th className="text-xs uppercase text-gray-400 font-normal">
+                Candidate
+              </th>
+              <th className="text-xs uppercase text-gray-400 font-normal">
+                Votes
+              </th>
+              <th className="text-xs uppercase text-gray-400 font-normal">
+                Percent
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {results?.map((result: VoteResult) => (
+              <>
+                <tr>
+                  <td className="pt-3 font-medium">{result.option}</td>
+                  <td className="pt-3">{result.votes}</td>
+                  <td className="pt-3 font-medium">
+                    {getPercentage(result.votes)}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="text-xs text-gray-400 leading-none">
+                    {result?.option}
+                  </td>
+                  <td colSpan={2}>
+                    <div
+                      className="h-[10px] bg-primary-500"
+                      style={{ width: `${getPercentage(result.votes)}` }}
+                    ></div>
+                  </td>
+                </tr>
+              </>
+            ))}
+          </tbody>
+        </table>
+        // <BarGraph data={results} />
       )}
     </div>
   );

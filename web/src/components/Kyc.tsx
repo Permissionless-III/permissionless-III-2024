@@ -30,7 +30,12 @@ export default function Kyc({
     );
   }, [address]);
 
-  if (!address) return <ConnectKitButton />;
+  if (!address)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <ConnectKitButton />
+      </div>
+    );
   if (!accessToken) return "Loading...";
 
   return (

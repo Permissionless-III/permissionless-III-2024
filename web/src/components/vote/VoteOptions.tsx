@@ -38,6 +38,18 @@ export function VoteOptions({
       name: "Kamala Harris",
       description: "Democratic candidate",
     },
+    {
+      name: "Kamala Harris",
+      description: "Democratic candidate",
+    },
+    {
+      name: "Kamala Harris",
+      description: "Democratic candidate",
+    },
+    {
+      name: "Kamala Harris",
+      description: "Democratic candidate",
+    },
   ];
 
   if (!electionOptions) return null;

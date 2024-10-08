@@ -8,10 +8,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <Web3Provider>
       <VidProvider>
-        <Header />
-        <main className="h-[calc(100vh-72px)] w-full flex items-center justify-center text-center bg-gray-100">
-          {children}
-        </main>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow bg-gray-100 py-8 flex">
+            <div className="flex-grow max-w-md text-center mx-auto">
+              {children}
+            </div>
+          </main>
+        </div>
       </VidProvider>
     </Web3Provider>
   );
