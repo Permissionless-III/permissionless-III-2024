@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { Election } from "@/components/types/types";
-import { ELECTION_FACTORY_CONTRACT_ABI, ELECTION_FACTORY_CONTRACT_CONFIG } from "@/constants/config";
+import {
+  ELECTION_FACTORY_CONTRACT_ABI,
+  ELECTION_FACTORY_CONTRACT_CONFIG,
+} from "@/constants/config";
 import { useWriteContract } from "wagmi";
 import Link from "next/link";
 
@@ -26,7 +29,7 @@ export default function Create() {
       functionName: "createElection",
       args: [uri, name, description, kickoff, deadline],
     });
-  }
+  };
 
   return (
     <div>
