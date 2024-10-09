@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Election } from "@/components/types/types";
 import {
-  ELECTION_FACTORY_CONTRACT_ABI,
-  ELECTION_FACTORY_CONTRACT_CONFIG,
+  ELECTION_FACTORY_CONTRACT_CONFIG
 } from "@/constants/config";
 import { useWriteContract } from "wagmi";
 import Link from "next/link";
@@ -17,13 +16,9 @@ export default function Create() {
   const [kickoff, setKickoff] = useState<bigint>(BigInt(0));
   const [deadline, setDeadline] = useState<bigint>(BigInt(0));
 
-  const { writeContract, data, isSuccess, isError, error } = useWriteContract();
-
-  console.log(data);
-  console.log(isSuccess, isError, error);
+  const { writeContract } = useWriteContract();
 
   const handleCreateElection = (): void => {
-    console.log(name, description, kickoff, deadline);
     writeContract({
       ...ELECTION_FACTORY_CONTRACT_CONFIG,
       functionName: "createElection",

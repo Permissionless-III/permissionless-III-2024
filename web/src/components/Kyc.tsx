@@ -7,14 +7,14 @@ import {
   checkDuplication,
   getApplicantId,
 } from "@/app/actions/kyc";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
+import { useAccount } from "wagmi";
 import { useAuth } from "@/hooks/useAuth";
 import ConnectWalletButton from "@/components/layout/ConnectWalletButton";
-import { REGISTRY_CONTRACT_CONFIG } from "@/constants/config";
+import { Auth } from "@/contexts/AuthContext";
 
 export default function Kyc() {
   const { address } = useAccount();
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -44,40 +44,49 @@ export default function Kyc() {
       </div>
     );
 
-  return (
-    <div className="w-full mx-auto">
-      <SumsubWebSdk
-        accessToken={accessToken}
-        expirationHandler={() => {
-          return Promise.resolve("not sure what this is");
-        }}
-        config={{
-          lang: "en",
-          // uiConf: {
-          //   customCssStr: ":root {--background-color: #ffffff;}",
-          // },
-        }}
-        options={{ addViewportTag: false, adaptIframeHeight: true }}
-        onMessage={(type: string, payload: any) => {
-          console.log("onMessage", type, payload);
-          if (
-            type === "idCheck.onApplicantStatusChanged" &&
-            (payload as any)?.reviewResult?.reviewAnswer === "GREEN"
-          ) {
-            getApplicantId(address as string).then((id: string) => {
-              console.log("updating auth status...");
-              checkDuplication(id);
-              setAuth({
-                id,
-                isVerified: true,
+  if (!auth.isVerified)
+    return (
+      <div className="w-full mx-auto">
+        <SumsubWebSdk
+          accessToken={accessToken}
+          expirationHandler={() => {
+            return Promise.resolve("not sure what this is");
+          }}
+          config={{
+            lang: "en",
+            // uiConf: {
+            //   customCssStr: ":root {--background-color: #ffffff;}",
+            // },
+          }}
+          options={{ addViewportTag: false, adaptIframeHeight: true }}
+          onMessage={(type: string, payload: any) => {
+            console.log("onMessage", type, payload);
+            if (
+              type === "idCheck.onApplicantStatusChanged" &&
+              (payload as any)?.reviewResult?.reviewAnswer === "GREEN"
+            ) {
+              getApplicantId(address as string).then((id: string) => {
+                console.log("updating auth status...");
+                setAuth((prev: Auth) => ({
+                  ...prev,
+                  id,
+                  isVerified: true,
+                }));
+                checkDuplication(id);
               });
-            });
-          }
-        }}
-        onError={(error: any) => {
-          console.log("onError", error);
-        }}
-      />
+            }
+          }}
+          onError={(error: any) => {
+            console.log("onError", error);
+          }}
+        />
+      </div>
+    );
+
+  return (
+    <div className="h-full flex justify-center items-center text-gray-400">
+      Please sign the transaction in your web3 wallet to complete voter
+      registration.
     </div>
   );
 }
