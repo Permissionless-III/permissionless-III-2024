@@ -6,10 +6,13 @@ export const siteConfig = {
   url: "https://tsnext-tw.thcl.dev",
 };
 
-export const ELECTION_CHAIN_ID = 31;
+export const CHAIN_ID = 31;
 
 export const ELECTION_FACTORY_CONTRACT_ADDRESS =
   "0x10487A7Ec427885575C9e6FE198F7f34cb84EaA1";
+
+export const REGISTRY_CONTRACT_ADDRESS =
+  "0xFfac48B665F1FEBdD41F979b95C614c392a49a2D";
 
 export const ELECTION_CONTRACT_ABI = [
   {
@@ -1032,13 +1035,173 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
   },
 ] as const;
 
+export const REGISTRY_CONTRACT_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_trustedSigner",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "string",
+        name: "did",
+        type: "string",
+      },
+    ],
+    name: "VoterRegistration",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_did",
+        type: "string",
+      },
+    ],
+    name: "register",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "minter",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "did",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "registeredAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct Types.Voter",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    name: "registeredVoters",
+    outputs: [
+      {
+        internalType: "address",
+        name: "minter",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "did",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "registeredAt",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalRegistered",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedSigner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_did",
+        type: "string",
+      },
+    ],
+    name: "voter",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "minter",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "did",
+            type: "string",
+          },
+          {
+            internalType: "uint256",
+            name: "registeredAt",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct Types.Voter",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+] as const;
+
 export const ELECTION_FACTORY_CONTRACT_CONFIG = {
   address: ELECTION_FACTORY_CONTRACT_ADDRESS,
   abi: ELECTION_FACTORY_CONTRACT_ABI,
-  chainId: ELECTION_CHAIN_ID,
+  chainId: CHAIN_ID,
 } as const;
 
 export const ELECTION_CONTRACT_CONFIG = {
   abi: ELECTION_CONTRACT_ABI,
-  chainId: ELECTION_CHAIN_ID,
+  chainId: CHAIN_ID,
+} as const;
+
+export const REGISTRY_CONTRACT_CONFIG = {
+  address: REGISTRY_CONTRACT_ADDRESS,
+  abi: REGISTRY_CONTRACT_ABI,
+  chainId: CHAIN_ID,
 } as const;
