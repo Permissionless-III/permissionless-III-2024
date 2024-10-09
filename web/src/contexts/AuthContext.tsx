@@ -2,7 +2,6 @@ import { CHAIN_ID, REGISTRY_CONTRACT_CONFIG } from "@/constants/config";
 import React, {
   createContext,
   useState,
-  useContext,
   ReactNode,
   useEffect,
   useCallback,
@@ -74,7 +73,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   console.log("registeredIdError", registeredIdError);
   console.log("registeredId", registeredId);
 
-  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const {
+    writeContract,
+    data: hash,
+    isSuccess: registerSuccess,
+    isPending,
+    error,
+  } = useWriteContract();
 
   useEffect(() => {
     if (registeredId?.[1] === "") {
@@ -92,11 +97,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [registeredId]);
 
   useEffect(() => {
-    if (hash) setAuth(prev => ({ ...prev, isRegistered: true }));
-  }, [hash]);
+    if (registerSuccess) setAuth(prev => ({ ...prev, isRegistered: true }));
+  }, [registerSuccess]);
 
   console.log("register hash", hash);
   console.log("register isPending", isPending);
+  console.log("register isSuccess", registerSuccess);
   console.log("register error", error);
   console.log("isRegistered", auth.isRegistered);
 

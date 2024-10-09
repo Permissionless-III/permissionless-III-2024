@@ -19,7 +19,12 @@ export function VoteSubmission({
 }) {
   const [isVoting, setIsVoting] = useState(false);
   const { auth } = useAuth();
-  const { writeContract, data: hash, error } = useWriteContract();
+  const {
+    writeContract,
+    data: hash,
+    isSuccess: voteSuccess,
+    error,
+  } = useWriteContract();
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { setVote } = useVoteTx();
 
@@ -35,13 +40,13 @@ export function VoteSubmission({
   console.log(isTransactionLoading, isSuccess);
 
   useEffect(() => {
-    if (hash) {
+    if (voteSuccess) {
       console.log("hash", hash);
       onSubmitted();
       setIsVoting(false);
       setVote({ voteTxHash: hash });
     }
-  }, [hash]);
+  }, [voteSuccess, hash]);
 
   useEffect(() => {
     if (error) {
