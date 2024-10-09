@@ -7,7 +7,7 @@ Repository for Permissionless III hackathon!
 ## Project Details
 
 - [Link To Work](https://github.com/Permissionless-III/permissionless-III-2024)
-- [Demo URL]()
+- [Demo URL](https://permissionless-iii-hackathon.vercel.app)
 - [Video URL]()
 - Project name: BitVote
 - Project short bio: The BitVote app is an onchain voting application on Rootstock. Users can view current elections, cast their vote, and verify that their vote was recorded correctly onchain. There is also an admin UI for creating elections and assign candidations.
