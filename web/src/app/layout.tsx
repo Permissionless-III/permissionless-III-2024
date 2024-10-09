@@ -8,7 +8,7 @@ import { siteConfig } from "@/constants/config";
 import Layout from "@/components/layout/Layout";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  // metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
     template: `%s | ${siteConfig.title}`,

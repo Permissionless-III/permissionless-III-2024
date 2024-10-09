@@ -1,10 +1,6 @@
-import React, {
-  useWriteContract,
-  useWaitForTransaction,
-  useWaitForTransactionReceipt,
-} from "wagmi";
+import React, { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { useEffect, useState } from "react";
-import { CONTRACT_CONFIG, ELECTION_CONTRACT_CONFIG } from "@/constants/config";
+import { ELECTION_CONTRACT_CONFIG } from "@/constants/config";
 import Button from "@/components/buttons/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { useParams } from "next/navigation";
@@ -31,7 +27,6 @@ export function VoteSubmission({
       hash,
     });
 
-  console.log("id", auth.id);
   console.log("ERROR", error);
 
   console.log(isTransactionLoading, isSuccess);
