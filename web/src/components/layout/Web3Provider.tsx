@@ -13,7 +13,6 @@ const config = createConfig(
     },
     walletConnectProjectId: process.env
       .NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
-
     appName: "BitVote",
     ssr: true,
     // appUrl: "https://family.co", // your app's url
