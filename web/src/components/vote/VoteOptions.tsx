@@ -1,13 +1,8 @@
-import {
-  ELECTION_CONTRACT_CONFIG,
-  ELECTION_FACTORY_CONTRACT_CONFIG,
-} from "@/constants/config";
-import React, { useEffect, useState } from "react";
+import { ELECTION_CONTRACT_CONFIG } from "@/constants/config";
 import { useReadContract } from "wagmi";
 import Button from "@/components/buttons/Button";
 import { cn } from "@/lib/utils";
 import { ClockIcon } from "lucide-react";
-import { encodePacked, keccak256, parseEther } from "viem";
 import { useParams } from "next/navigation";
 import { getTimeLeft } from "@/utils/dates";
 

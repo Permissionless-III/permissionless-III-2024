@@ -9,17 +9,27 @@ import {
 import { getTimeLeft } from "@/utils/dates";
 import { ClockIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
+
+function NotLink({
+  className,
+  children,
+}: {
+  className: string;
+  children: ReactNode;
+  href?: string;
+}) {
+  return <div className={className}>{children}</div>;
+}
 
 export default function ElectionLink({
   electionId,
 }: {
   electionId: `0x${string}`;
 }) {
-  // const [elections, setElections] = useState<Election[]>([]);
   const { auth } = useAuth();
 
-  const { data: electionContractAddress, error } = useReadContract({
+  const { data: electionContractAddress } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getElection",
     args: [electionId],
@@ -44,28 +54,18 @@ export default function ElectionLink({
     args: auth?.id ? [auth?.id] : undefined,
   });
 
-  console.log(deadline)
-  // deadline = BigInt(Date.now())
-  // console.log(deadline)
-  // const [isDisabled, setIsDisabled] = useState(deadline && Number(deadline) * 1000 > BigInt(Date.now()));
-  const [isDisabled, setIsDisabled] = useState(false);
+  const userHasVoted = userVotes?.[1]?.did === auth.id;
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // if (isDisabled) e.preventDefault();
-  };
+  const pastDeadline = useMemo(() => {
+    return deadline && new Date().getTime() > Number(deadline) * 1000;
+  }, [deadline]);
 
-  console.log("electionName", electionName);
-  console.log("error", error);
-  console.log("userVotes", userVotes);
-
-  // if (isLoading) return <div>Loading results...</div>;
-  // if (isError) return <div>Error loading results</div>;
+  const Component = userHasVoted || !!pastDeadline ? NotLink : Link;
 
   return (
-    <Link
+    <Component
       className="bg-white shadow-md rounded-xl w-full block overflow-hidden"
       href={`/vote/${electionContractAddress}`}
-      onClick={handleClick}
     >
       <div className="min-h-[40px] p-3 bg-white text-left text-lg">
         {electionName}
@@ -73,13 +73,18 @@ export default function ElectionLink({
       {/* <div>{election.description}</div> */}
       <div className="flex items-center justify-between bg-primary-600 text-xs p-3">
         <div className="flex items-center text-white">
-          <ClockIcon className={`isDisabled ? 'text-gray-500 cursor-not-allowed' :w-3 h-3 inline-block mr-1`} />
-          Voting closes in {getTimeLeft(Number(deadline) * 1000)}
+          <ClockIcon
+            className={`isDisabled ? 'text-gray-500 cursor-not-allowed' :w-3 h-3 inline-block mr-1`}
+          />
+          {!pastDeadline && (
+            <>Voting closes in {getTimeLeft(Number(deadline) * 1000)}</>
+          )}
+          {pastDeadline && "Voting has ended"}
         </div>
         <div className="rounded-lg bg-white font-medium text-primary-600 px-3 py-2 text-md">
-          Vote
+          {userHasVoted ? "Voted" : "Vote"}
         </div>
       </div>
-    </Link>
+    </Component>
   );
 }

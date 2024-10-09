@@ -7,15 +7,20 @@ import ElectionLink from "./ElectionLink";
 export default function Elections() {
   // const [elections, setElections] = useState<Election[]>([]);
 
-  const { data: elections, error } = useReadContract({
+  const {
+    data: elections,
+    isLoading,
+    isError,
+    error,
+  } = useReadContract({
     ...ELECTION_FACTORY_CONTRACT_CONFIG,
     functionName: "getAllElections",
   });
 
-  console.log("elections", elections);
-  console.log("error", error);
-  // if (isLoading) return <div>Loading results...</div>;
-  // if (isError) return <div>Error loading results</div>;
+  console.log("getAllElections error", error);
+
+  if (isLoading) return <div>Loading results...</div>;
+  if (isError) return <div>Error loading results</div>;
 
   return (
     <div>
