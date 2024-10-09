@@ -9,7 +9,7 @@ import {
 import { getTimeLeft } from "@/utils/dates";
 import { ClockIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useMemo, useState } from "react";
 
 function NotLink({
   className,
@@ -56,9 +56,11 @@ export default function ElectionLink({
 
   const userHasVoted = userVotes?.[1]?.did === auth.id;
 
-  console.log("userVotes", userVotes);
+  const pastDeadline = useMemo(() => {
+    return deadline && new Date().getTime() > Number(deadline) * 1000;
+  }, [deadline]);
 
-  const Component = userHasVoted ? NotLink : Link;
+  const Component = userHasVoted || !!pastDeadline ? NotLink : Link;
 
   return (
     <Component
@@ -74,7 +76,10 @@ export default function ElectionLink({
           <ClockIcon
             className={`isDisabled ? 'text-gray-500 cursor-not-allowed' :w-3 h-3 inline-block mr-1`}
           />
-          Voting closes in {getTimeLeft(Number(deadline) * 1000)}
+          {!pastDeadline && (
+            <>Voting closes in {getTimeLeft(Number(deadline) * 1000)}</>
+          )}
+          {pastDeadline && "Voting has ended"}
         </div>
         <div className="rounded-lg bg-white font-medium text-primary-600 px-3 py-2 text-md">
           {userHasVoted ? "Voted" : "Vote"}
