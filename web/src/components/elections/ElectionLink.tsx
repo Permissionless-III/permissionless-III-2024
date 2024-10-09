@@ -9,6 +9,7 @@ import {
 import { getTimeLeft } from "@/utils/dates";
 import { ClockIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 
 export default function ElectionLink({
   electionId,
@@ -30,7 +31,7 @@ export default function ElectionLink({
     functionName: "name",
   });
 
-  const { data: deadline } = useReadContract({
+  var { data: deadline } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
     address: electionContractAddress,
     functionName: "deadline",
@@ -43,6 +44,16 @@ export default function ElectionLink({
     args: auth?.id ? [auth?.id] : undefined,
   });
 
+  console.log(deadline)
+  // deadline = BigInt(Date.now())
+  // console.log(deadline)
+  // const [isDisabled, setIsDisabled] = useState(deadline && Number(deadline) * 1000 > BigInt(Date.now()));
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // if (isDisabled) e.preventDefault();
+  };
+
   console.log("electionName", electionName);
   console.log("error", error);
   console.log("userVotes", userVotes);
@@ -54,6 +65,7 @@ export default function ElectionLink({
     <Link
       className="bg-white shadow-md rounded-xl w-full block overflow-hidden"
       href={`/vote/${electionContractAddress}`}
+      onClick={handleClick}
     >
       <div className="min-h-[40px] p-3 bg-white text-left text-lg">
         {electionName}
@@ -61,7 +73,7 @@ export default function ElectionLink({
       {/* <div>{election.description}</div> */}
       <div className="flex items-center justify-between bg-primary-600 text-xs p-3">
         <div className="flex items-center text-white">
-          <ClockIcon className="w-3 h-3 inline-block mr-1" />
+          <ClockIcon className={`isDisabled ? 'text-gray-500 cursor-not-allowed' :w-3 h-3 inline-block mr-1`} />
           Voting closes in {getTimeLeft(Number(deadline) * 1000)}
         </div>
         <div className="rounded-lg bg-white font-medium text-primary-600 px-3 py-2 text-md">
