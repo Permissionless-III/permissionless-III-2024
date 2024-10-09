@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { ELECTION_CONTRACT_CONFIG } from "@/constants/config";
 import Button from "@/components/buttons/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useVoteTx } from "@/hooks/useVoteTx";
+
 import { useParams } from "next/navigation";
 
 export function VoteSubmission({
@@ -19,6 +21,7 @@ export function VoteSubmission({
   const { auth } = useAuth();
   const { writeContract, data: hash, error } = useWriteContract();
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const { setVote } = useVoteTx();
 
   const { electionContractAddress } = useParams();
 
@@ -36,6 +39,7 @@ export function VoteSubmission({
       console.log("hash", hash);
       onSubmitted();
       setIsVoting(false);
+      setVote({ voteTxHash: hash });
     }
   }, [hash]);
 
