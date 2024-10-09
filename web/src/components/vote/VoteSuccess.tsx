@@ -5,6 +5,7 @@ import Results from "../results/Results";
 
 export default function VoteSuccess() {
   const { electionContractAddress } = useParams();
+  console.log("votesSuccess electionContractAddress", electionContractAddress);
 
   return (
     <div className="flex-none">

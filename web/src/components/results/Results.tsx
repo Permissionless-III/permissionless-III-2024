@@ -6,6 +6,7 @@ import { VoteResult } from "@/components/types/types";
 import BarGraph from "./BarGraph";
 import { resultsData } from "@/app/data/results";
 import { ELECTION_CONTRACT_CONFIG } from "@/constants/config";
+import ResultsRow from "./ResultsRow";
 // Replace with your actual contract ABI and address
 const contractABI = [
   /* Your contract ABI here */
@@ -17,37 +18,23 @@ export default function Results({
 }: {
   electionContractAddress: string;
 }) {
-  const [results, setResults] = useState<VoteResult[]>([]);
+  console.log("electionContractAddress", electionContractAddress);
 
-  const { data, isError, isLoading } = useReadContract({
+  const { data: candidates } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
     address: electionContractAddress as `0x${string}`,
-    functionName: "getVoteResults",
+    functionName: "getCandidates",
   });
 
-  useEffect(() => {
-    if (resultsData) {
-      // Assuming the contract returns an array of objects with option and votes
-      setResults(resultsData);
-    }
-  }, [resultsData]);
+  console.log("getCandidates", candidates);
 
-  // const maxVotes = Math.max(...data.map(item => item.votes));
-
-  // const percentageFormatter = (value: number): string =>
-  //   `${((value / maxVotes) * 100).toFixed(1)}%`;
-
-  // if (isLoading) return <div>Loading results...</div>;
-  // if (isError) return <div>Error loading results</div>;
-
-  const getPercentage = (votes: number): string => {
-    const totalVotes = results.reduce((acc, curr) => acc + curr.votes, 0);
-    return `${((votes / totalVotes) * 100).toFixed(1)}%`;
-  };
+  const totalVotes = candidates?.reduce((acc: number, candidate: any) => {
+    return acc + Number(candidate.totalVotes);
+  }, 0);
 
   return (
     <div className="min-w-[300px]">
-      {results.length === 0 ? (
+      {candidates?.length === 0 ? (
         <p className="text-center text-gray-400">
           No votes have been cast yet.
         </p>
@@ -67,31 +54,15 @@ export default function Results({
             </tr>
           </thead>
           <tbody>
-            {results?.map((result: VoteResult) => (
-              <>
-                <tr>
-                  <td className="pt-4 font-medium">{result.option}</td>
-                  <td className="pt-3">{result.votes}</td>
-                  <td className="pt-3 font-medium text-right">
-                    {getPercentage(result.votes)}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="text-xs text-gray-400 leading-none">
-                    {result?.option}
-                  </td>
-                  <td colSpan={2}>
-                    <div
-                      className="h-[10px] bg-primary-500"
-                      style={{ width: `${getPercentage(result.votes)}` }}
-                    ></div>
-                  </td>
-                </tr>
-              </>
+            {candidates?.map((candidate: any, index: number) => (
+              <ResultsRow
+                key={index}
+                candidate={candidate}
+                totalVotes={totalVotes}
+              />
             ))}
           </tbody>
         </table>
-        // <BarGraph data={results} />
       )}
     </div>
   );
