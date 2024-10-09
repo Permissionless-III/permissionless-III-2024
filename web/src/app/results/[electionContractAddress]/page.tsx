@@ -5,5 +5,7 @@ import { useParams } from "next/navigation";
 
 export default function ResultsPage() {
   const { electionContractAddress } = useParams();
-  return <Results electionContractAddress={electionContractAddress} />;
+  return (
+    <Results electionContractAddress={electionContractAddress as string} />
+  );
 }

@@ -23,7 +23,7 @@ export function VoteOptions({
   onOptionSelect: (optionIdx: { index: number; name: string }) => void;
   selectedOptionIdx: number;
 }) {
-  const { electionId: electionContractAddress } = useParams();
+  const { electionContractAddress } = useParams();
 
   // const { data: electionContractAddress } = useReadContract({
   //   ...ELECTION_FACTORY_CONTRACT_CONFIG,

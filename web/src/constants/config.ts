@@ -6,8 +6,10 @@ export const siteConfig = {
   url: "https://tsnext-tw.thcl.dev",
 };
 
+export const ELECTION_CHAIN_ID = 31;
+
 export const ELECTION_FACTORY_CONTRACT_ADDRESS =
-  "0x288C57b461675531AFA3BdAd0e26304bDFe1887d";
+  "0x10487A7Ec427885575C9e6FE198F7f34cb84EaA1";
 
 export const ELECTION_CONTRACT_ABI = [
   {
@@ -1033,10 +1035,10 @@ export const ELECTION_FACTORY_CONTRACT_ABI = [
 export const ELECTION_FACTORY_CONTRACT_CONFIG = {
   address: ELECTION_FACTORY_CONTRACT_ADDRESS,
   abi: ELECTION_FACTORY_CONTRACT_ABI,
-  chainId: 11155111,
+  chainId: ELECTION_CHAIN_ID,
 } as const;
 
 export const ELECTION_CONTRACT_CONFIG = {
   abi: ELECTION_CONTRACT_ABI,
-  chainId: 11155111,
+  chainId: ELECTION_CHAIN_ID,
 } as const;
