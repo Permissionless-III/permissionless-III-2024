@@ -11,8 +11,6 @@ contract ElectionDeployer is IElectionDeployer {
         string _uri;
         string _name;
         string _description;
-        string[] _candidateNames;
-        string[] _candidateDescriptions;
         uint256 _kickoff;
         uint256 _deadline;
     }
@@ -27,8 +25,6 @@ contract ElectionDeployer is IElectionDeployer {
             string memory _uri,
             string memory _name,
             string memory _description,
-            string[] memory _candidateNames,
-            string[] memory _candidateDescriptions,
             uint256 _kickoff,
             uint256 _deadline
         )
@@ -38,8 +34,6 @@ contract ElectionDeployer is IElectionDeployer {
             parameters._uri,
             parameters._name,
             parameters._description,
-            parameters._candidateNames,
-            parameters._candidateDescriptions,
             parameters._kickoff,
             parameters._deadline
         );
@@ -50,8 +44,6 @@ contract ElectionDeployer is IElectionDeployer {
         string memory _uri,
         string memory _name,
         string memory _description,
-        string[] memory _candidateNames,
-        string[] memory _candidateDescriptions,
         uint256 _kickoff,
         uint256 _deadline
     ) internal returns (address election) {
@@ -60,18 +52,10 @@ contract ElectionDeployer is IElectionDeployer {
             _uri: _uri,
             _name: _name,
             _description: _description,
-            _candidateNames: _candidateNames,
-            _candidateDescriptions: _candidateDescriptions,
             _kickoff: _kickoff,
             _deadline: _deadline
         });
-        election = address(
-            new Election{
-                salt: keccak256(
-                    abi.encode(_uri, _name, _description, _candidateNames, _candidateDescriptions, _kickoff, _deadline)
-                )
-            }()
-        );
+        election = address(new Election{salt: keccak256(abi.encode(_uri, _name, _description, _kickoff, _deadline))}());
         delete parameters;
     }
 }

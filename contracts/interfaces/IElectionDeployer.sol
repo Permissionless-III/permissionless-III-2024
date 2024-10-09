@@ -10,8 +10,6 @@ interface IElectionDeployer {
             string calldata _uri,
             string memory _name,
             string memory _description,
-            string[] memory _candidateNames,
-            string[] memory _candidateDescriptions,
             uint256 _kickoff,
             uint256 _deadline
         );
