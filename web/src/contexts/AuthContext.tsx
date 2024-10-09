@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   } = useWriteContract();
 
   useEffect(() => {
-    if (registeredId === null) {
+    if (registeredId?.[1] === "") {
       console.log("registering voter");
       writeContract({
         ...REGISTRY_CONTRACT_CONFIG,
@@ -70,7 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         args: [auth.id as string],
       });
     }
-    if (registeredId) {
+    if (registeredId?.[1]) {
       console.log("voter already registered");
     }
   }, [registeredId]);
