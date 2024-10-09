@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import * as React from "react";
+import { Source_Sans_3 } from "next/font/google";
 
 import "@/styles/globals.css";
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -50,6 +51,12 @@ export const metadata: Metadata = {
   // ],
 };
 
+const sourceSansPro = Source_Sans_3({
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "600", "700", "900"],
+  variable: "--font-source-sans-pro",
+});
+
 export default function RootLayout({
   children,
 }: {
@@ -57,7 +64,7 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>
+      <body className={sourceSansPro.variable}>
         <Layout>{children}</Layout>
       </body>
     </html>

@@ -2,7 +2,6 @@ import React from "react";
 
 import ConnectWalletButton from "@/components/layout/ConnectWalletButton";
 import { useAccount } from "wagmi";
-import Link from "next/link";
 import LogoLink from "./LogoLink";
 
 export default function Header() {

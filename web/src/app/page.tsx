@@ -11,9 +11,6 @@ import "@/lib/env";
  * You can override the next-env if the type is important to you
  * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
  */
-import Vote from "@/components/vote/Vote";
-import Elections from "@/components/elections/Elections";
-import { useAccount } from "wagmi";
 import Home from "@/components/Home";
 import { useAuth } from "@/hooks/useAuth";
 

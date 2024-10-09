@@ -30,7 +30,7 @@ export default function Kyc() {
   if (!address)
     return (
       <div className="flex flex-col h-full items-center justify-center text-center">
-        <p className="block mb-4 max-w-[250px]">
+        <p className="block mb-4 max-w-[280px]">
           Please connect a web3 wallet to start the voter registration process.
         </p>
         <ConnectWalletButton />
