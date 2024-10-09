@@ -2,9 +2,9 @@
 pragma solidity ^0.8.20;
 
 interface IElection {
-    // function active() external view returns (bool);
-
     function factory() external view returns (address);
+
+    function electionId() external view returns (bytes32);
 
     function name() external view returns (string memory);
 
@@ -16,5 +16,7 @@ interface IElection {
 
     function totalVotes() external view returns (uint256);
 
-    function vote(string calldata _did, uint256 _candidateIndex, bytes calldata _signature) external;
+    function setCandidates(string[] calldata _candidateNames, string[] calldata _candidateDescriptions) external;
+
+    function vote(string calldata _did, uint256 _candidateIndex) external;
 }
