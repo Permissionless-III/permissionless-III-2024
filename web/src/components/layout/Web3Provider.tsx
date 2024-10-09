@@ -1,14 +1,13 @@
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { mainnet, rootstock, rootstockTestnet } from "wagmi/chains";
+import { rootstockTestnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
 const config = createConfig(
   getDefaultConfig({
-    chains: [rootstockTestnet, rootstock],
+    chains: [rootstockTestnet],
     transports: {
       [rootstockTestnet.id]: http(`https://public-node.testnet.rsk.co`),
-      [rootstock.id]: http(`https://public-node.rsk.co/`),
     },
     walletConnectProjectId: process.env
       .NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
