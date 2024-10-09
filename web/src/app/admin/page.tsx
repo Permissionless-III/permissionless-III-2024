@@ -9,6 +9,12 @@ export default function AdminPage() {
       >
         Create Election
       </Link>
+      <Link
+        href="/candidates"
+        className="bg-primary-600 shadow-md p-4 mb-4 rounded-xl w-full block overflow-hidden text-white"
+      >
+        Add Candidates
+      </Link>
     </>
   );
 }
