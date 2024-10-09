@@ -18,15 +18,14 @@ export default function ResultsRow({
   totalVotes,
 }: {
   candidate: { name: string; description: string; totalVotes: BigInt };
-  totalVotes: number;
+  totalVotes?: number;
 }) {
   const votes = Number(candidate.totalVotes);
 
   const getPercentage = (votes: number): string => {
+    if (!totalVotes) return "0%";
     return `${((votes / totalVotes) * 100).toFixed(1)}%`;
   };
-
-  console.log("c", candidate);
 
   return (
     <>

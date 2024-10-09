@@ -1,7 +1,13 @@
-import React, { useWriteContract, useWaitForTransaction } from "wagmi";
-import { useState } from "react";
-import { CONTRACT_CONFIG } from "@/constants/config";
+import React, {
+  useWriteContract,
+  useWaitForTransaction,
+  useWaitForTransactionReceipt,
+} from "wagmi";
+import { useEffect, useState } from "react";
+import { CONTRACT_CONFIG, ELECTION_CONTRACT_CONFIG } from "@/constants/config";
 import Button from "@/components/buttons/Button";
+import { useAuth } from "@/hooks/useAuth";
+import { useParams } from "next/navigation";
 
 export function VoteSubmission({
   selectedOption,
@@ -14,28 +20,48 @@ export function VoteSubmission({
   onSubmitted: () => void;
 }) {
   const [isVoting, setIsVoting] = useState(false);
+  const { auth } = useAuth();
+  const { writeContract, data: hash, error } = useWriteContract();
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  // const { writeContract, data: hash } = useWriteContract({
-  //   ...CONTRACT_CONFIG,
-  //   functionName: "vote",
-  //   args: [selectedOption.index, selectedOption.name],
-  // });
+  const { electionContractAddress } = useParams();
 
-  // const { isLoading: isTransactionLoading, isSuccess } = useWaitForTransaction({
-  //   hash,
-  // });
+  const { isLoading: isTransactionLoading, isSuccess } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
+  console.log("id", auth.id);
+  console.log("ERROR", error);
+
+  console.log(isTransactionLoading, isSuccess);
+
+  useEffect(() => {
+    if (hash) {
+      console.log("hash", hash);
+      onSubmitted();
+      setIsVoting(false);
+    }
+  }, [hash]);
+
+  useEffect(() => {
+    if (error) {
+      setIsVoting(false);
+      setErrorMessage(error.message);
+    }
+  }, [error]);
 
   const handleVote = async () => {
+    if (!auth?.id) return;
+
     setIsVoting(true);
 
-    // const result = await writeContract({
-    //   ...CONTRACT_CONFIG,
-    //   functionName: "vote",
-    //   args: ["vid-string", BigInt(selectedOption.index)],
-    // });
-
-    onSubmitted();
-    setIsVoting(false);
+    writeContract({
+      ...ELECTION_CONTRACT_CONFIG,
+      functionName: "vote",
+      address: electionContractAddress as `0x${string}`,
+      args: [auth?.id as string, BigInt(selectedOption.index)],
+    });
   };
 
   // if (isLoading || isTransactionLoading) return <div>Processing...</div>;
@@ -54,6 +80,9 @@ export function VoteSubmission({
       >
         Confirm your Vote
       </Button>
+      {errorMessage && (
+        <p className="text-red-500 text-xs font-medium mt-6">{errorMessage}</p>
+      )}
     </>
   );
 }
