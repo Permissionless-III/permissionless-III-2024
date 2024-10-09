@@ -15,7 +15,7 @@ export default function Vote() {
 
   const [submitted, setSubmitted] = useState(false);
 
-  if (!auth.isVerified) return <Kyc />;
+  if (!auth.isVerified || !auth.isRegistered) return <Kyc />;
 
   if (!submitted)
     return (

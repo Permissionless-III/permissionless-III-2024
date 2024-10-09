@@ -13,14 +13,15 @@ import {
   useWriteContract,
 } from "wagmi";
 
-type Auth = {
+export type Auth = {
   isVerified: boolean;
+  isRegistered: boolean;
   id: string | null;
 };
 
 type AuthContextType = {
   auth: Auth;
-  setAuth: (auth: Auth) => void;
+  setAuth: React.Dispatch<React.SetStateAction<Auth>>;
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
@@ -30,6 +31,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [auth, setAuth] = useState<Auth>({
     isVerified: false,
+    isRegistered: false,
     id: null,
   });
 
@@ -37,6 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onDisconnect() {
       setAuth({
         isVerified: false,
+        isRegistered: false,
         id: null,
       });
     },
@@ -71,13 +74,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     }
     if (registeredId?.[1]) {
+      setAuth(prev => ({ ...prev, isRegistered: true }));
       console.log("voter already registered");
     }
   }, [registeredId]);
 
+  useEffect(() => {
+    if (hash) setAuth(prev => ({ ...prev, isRegistered: true }));
+  }, [hash]);
+
   console.log("register hash", hash);
   console.log("register isPending", isPending);
   console.log("register error", error);
+  console.log("isRegistered", auth.isRegistered);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
