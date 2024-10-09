@@ -8,7 +8,7 @@ import '@openzeppelin/contracts/utils/Strings.sol';
 
 // Libs
 import '../libraries/Types.sol';
-import '../libraries/SignatureVerifier.sol';
+// import '../libraries/SignatureVerifier.sol';
 import '../interfaces/IElectionDeployer.sol';
 import '../interfaces/IElectionFactory.sol';
 
@@ -51,33 +51,16 @@ contract Election is IElection, ERC1155, ERC1155Supply, NoDelegateCall {
     }
 
     constructor() ERC1155('') {
-        string[] memory _candidateNames;
-        string[] memory _candidateDescriptions;
         string memory _uri;
-        (
-            factory,
-            _uri,
-            name,
-            description,
-            _candidateNames,
-            _candidateDescriptions,
-            kickoff,
-            deadline
-        ) = IElectionDeployer(msg.sender).getParameters();
+        (factory, _uri, name, description, kickoff, deadline) = IElectionDeployer(msg.sender).getParameters();
 
         _setURI(_uri);
-
-        for (uint i = 0; i < _candidateNames.length; i++) {
-            candidates.push(
-                Types.Candidate({name: _candidateNames[i], description: _candidateDescriptions[i], totalVotes: 0})
-            );
-        }
 
         totalVotes = 0;
     }
 
     modifier isActive() {
-        require((block.timestamp <= kickoff && block.timestamp >= deadline) == true, 'election not active');
+        require((block.timestamp > kickoff && block.timestamp < deadline) == true, 'election not active');
         _;
     }
 
@@ -85,35 +68,58 @@ contract Election is IElection, ERC1155, ERC1155Supply, NoDelegateCall {
                             View functions
     //////////////////////////////////////////////////////////////*/
 
+    function electionId() external view returns (bytes32) {
+        return keccak256(abi.encodePacked(name));
+    }
+
+    function getCandidates() external view returns (Types.Candidate[] memory) {
+        return candidates;
+    }
+
     function totalVotesByCandidate(uint256 _candidateIndex) external view returns (uint256) {
         return candidates[_candidateIndex].totalVotes;
     }
+
+    function getVotes() external view returns (Types.Candidate[] memory) {
+        return candidates;
+    }
+
 
     /*///////////////////////////////////////////////////////////////
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
-    function vote(
-        string memory _did,
-        uint256 _candidateIndex,
-        bytes calldata _signature
+    function setCandidates(
+        string[] memory _candidateNames,
+        string[] memory _candidateDescriptions
     ) external noDelegateCall isActive {
-        string memory message = SignatureVerifier.formatMessage([_did, Strings.toString(_candidateIndex)]);
-        address trustedSigner = IElectionFactory(factory).trustedSigner();
+        require(_candidateNames.length >= 2, 'not enough candidates');
+        require(_candidateNames.length == _candidateDescriptions.length, 'invalid candidates');
+
+        for (uint i = 0; i < _candidateNames.length; i++) {
+            candidates.push(
+                Types.Candidate({name: _candidateNames[i], description: _candidateDescriptions[i], totalVotes: 0})
+            );
+        }
+    }
+
+    function vote(string memory _did, uint256 _candidateIndex) external noDelegateCall isActive {
+        // string memory message = SignatureVerifier.formatMessage([_did, Strings.toString(_candidateIndex)]);
+        // address trustedSigner = IElectionFactory(factory).trustedSigner();
         address registry = IElectionFactory(factory).registry();
 
-        require(SignatureVerifier.verify(message, _signature, trustedSigner) == true, 'invalid signature');
+        // require(SignatureVerifier.verify(message, _signature, trustedSigner) == true, 'invalid signature');
 
         Types.Voter memory voter = IRegistry(registry).voter(_did);
 
-        // require(voter != 0, 'invalid voter');
+        require(voter.minter != address(0), 'invalid voter');
 
         totalVotes += 1;
         candidates[_candidateIndex].totalVotes += 1;
 
         votes[_did] = Types.Vote(msg.sender, voter, _candidateIndex, block.timestamp);
 
-        super._mint(msg.sender, 1, uint256(1), bytes('hello'));
+        super._mint(msg.sender, 1, uint256(1), bytes(''));
 
         emit SubmitVote();
     }

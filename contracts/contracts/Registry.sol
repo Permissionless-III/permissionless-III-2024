@@ -8,7 +8,7 @@ import '@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol';
 
 // Libs
 import '../libraries/Types.sol';
-import '../libraries/SignatureVerifier.sol';
+// import '../libraries/SignatureVerifier.sol';
 
 import '../interfaces/IRegistry.sol';
 
@@ -17,18 +17,22 @@ contract Registry is IRegistry {
                                 State
     //////////////////////////////////////////////////////////////*/
 
-    address private trustedSigner;
+    /// @inheritdoc IRegistry
+    address public trustedSigner;
 
-    mapping(bytes => Types.Voter) public registeredVoters;
+    mapping(string => Types.Voter) public registeredVoters;
+
+    /// @inheritdoc IRegistry
     uint256 public totalRegistered;
 
-    event VoterRegistration();
+    event VoterRegistration(string did);
 
     /*///////////////////////////////////////////////////////////////
                     Constructor, Initializer, Modifiers
     //////////////////////////////////////////////////////////////*/
 
     constructor(address _trustedSigner) {
+        require(_trustedSigner != address(0), 'invalid trusted signer');
         trustedSigner = _trustedSigner;
     }
 
@@ -37,29 +41,25 @@ contract Registry is IRegistry {
     //////////////////////////////////////////////////////////////*/
 
     function voter(string calldata _did) external view returns (Types.Voter memory) {
-        return registeredVoters[bytes(_did)];
+        return registeredVoters[_did];
     }
-
-    // function total_registered() external view returns (uint) {
-    //     return registered_voters.length;
-    // }
 
     /*///////////////////////////////////////////////////////////////
                             External/Public functions
     //////////////////////////////////////////////////////////////*/
 
-    function register(string memory _did, bytes calldata _signature) external returns (Types.Voter memory) {
-        string memory message = SignatureVerifier.formatMessage([_did, '']);
-        require(SignatureVerifier.verify(message, _signature, trustedSigner) == true, 'invalid signature');
+    function register(string memory _did) external returns (Types.Voter memory) {
+        // string memory message = SignatureVerifier.formatMessage([_did, '']);
+        // require(SignatureVerifier.verify(message, _signature, trustedSigner) == true, 'invalid signature');
 
-        require(bytes(_did).length != 0, 'invalid did');
+        // require(_did.length != 0, 'invalid did');
         // require(voter_exists[bytes(_did)] == false, 'voter exists');
 
         Types.Voter memory voter = Types.Voter(msg.sender, _did, block.timestamp);
 
-        registeredVoters[bytes(_did)] = voter;
+        registeredVoters[_did] = voter;
         totalRegistered += 1;
-        emit VoterRegistration();
+        emit VoterRegistration(_did);
         return voter;
     }
 

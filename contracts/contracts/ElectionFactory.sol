@@ -19,7 +19,12 @@ contract ElectionFactory is IElectionFactory, ElectionDeployer, NoDelegateCall {
     address public trustedSigner;
 
     /// @inheritdoc IElectionFactory
-    mapping(string => address) public override getElection;
+    uint256 public electionCount;
+
+    /// @inheritdoc IElectionFactory
+    mapping(bytes32 => address) public override getElection;
+
+    bytes32[] public elections;
 
     constructor(address _registry, address _trustedSigner) {
         require(_registry != address(0), 'invalid registry');
@@ -28,6 +33,11 @@ contract ElectionFactory is IElectionFactory, ElectionDeployer, NoDelegateCall {
         owner = msg.sender;
         registry = _registry;
         trustedSigner = _trustedSigner;
+        electionCount = 0;
+    }
+
+    function getAllElections() public view returns (bytes32[] memory) {
+        return elections;
     }
 
     /// @inheritdoc IElectionFactory
@@ -35,27 +45,21 @@ contract ElectionFactory is IElectionFactory, ElectionDeployer, NoDelegateCall {
         string calldata _uri,
         string calldata _name,
         string calldata _description,
-        string[] calldata _candidateNames,
-        string[] calldata _candidateDescriptions,
         uint256 _kickoff,
         uint256 _deadline
     ) external override noDelegateCall returns (address election) {
-        require(_candidateNames.length >= 2, 'not enough candidates');
-        require(_candidateNames.length == _candidateDescriptions.length, 'invalid candidates');
         require(_deadline > _kickoff, 'deadline must be after kickoff');
 
-        require(getElection[_name] == address(0));
-        election = deploy(
-            address(this),
-            _uri,
-            _name,
-            _description,
-            _candidateNames,
-            _candidateDescriptions,
-            _kickoff,
-            _deadline
-        );
-        getElection[_name] = election;
+        bytes32 electionId = keccak256(abi.encodePacked(_name));
+        require(getElection[electionId] == address(0));
+
+        election = deploy(address(this), _uri, _name, _description, _kickoff, _deadline);
+        getElection[electionId] = election;
         emit ElectionCreated(msg.sender, election);
+
+        electionCount += 1;
+        elections.push(electionId);
+
+        return election;
     }
 }
