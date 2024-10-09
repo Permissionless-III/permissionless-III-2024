@@ -15,7 +15,7 @@ export default function VoteSuccess() {
         <div className="mb-2">Your vote has been cast!</div>
         <Link
           className="font-medium text-primary-500 inline-flex items-center"
-          href={`https://rootstock-testnet.blockscout.com/tx/${vote?.voteTx}`}
+          href={`https://rootstock-testnet.blockscout.com/tx/${vote?.voteTxHash}`}
         >
           View on Block Explorer
           <ArrowRightIcon className="w-5 h-5" />
