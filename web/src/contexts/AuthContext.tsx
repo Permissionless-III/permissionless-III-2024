@@ -1,16 +1,18 @@
-import { REGISTRY_CONTRACT_CONFIG } from "@/constants/config";
+import { CHAIN_ID, REGISTRY_CONTRACT_CONFIG } from "@/constants/config";
 import React, {
   createContext,
   useState,
   useContext,
   ReactNode,
   useEffect,
+  useCallback,
 } from "react";
 import {
-  useAccount,
   useAccountEffect,
   useReadContract,
   useWriteContract,
+  useChainId,
+  useSwitchChain,
 } from "wagmi";
 
 export type Auth = {
@@ -34,6 +36,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isRegistered: false,
     id: null,
   });
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
+  const isCorrectChain = chainId === CHAIN_ID;
+
+  const switchToCorrectChain = useCallback(async () => {
+    try {
+      await switchChain({ chainId: CHAIN_ID });
+    } catch (err) {
+      console.error("Failed to switch network");
+    }
+  }, [switchChain]);
+
+  useEffect(() => {
+    if (!isCorrectChain) {
+      switchToCorrectChain();
+    }
+  }, [isCorrectChain, switchToCorrectChain]);
 
   useAccountEffect({
     onDisconnect() {
@@ -55,14 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   console.log("registeredIdError", registeredIdError);
   console.log("registeredId", registeredId);
 
-  const {
-    writeContract,
-    data: hash,
-    isSuccess,
-    isPending,
-    isError,
-    error,
-  } = useWriteContract();
+  const { writeContract, data: hash, isPending, error } = useWriteContract();
 
   useEffect(() => {
     if (registeredId?.[1] === "") {
