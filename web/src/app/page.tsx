@@ -28,7 +28,7 @@ const Kyc = dynamic(() => import("@/components/Kyc"), {
 export default function HomePage() {
   const { auth } = useAuth();
 
-  if (!auth || !auth?.isVerified) {
+  if (!auth || !auth?.isVerified || !auth.isRegistered) {
     return <Kyc />;
   }
 
