@@ -5,10 +5,10 @@ import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
 const config = createConfig(
   getDefaultConfig({
-    chains: [rootstock, rootstockTestnet],
+    chains: [rootstockTestnet, rootstock],
     transports: {
-      [rootstock.id]: http(`https://public-node.rsk.co/`),
       [rootstockTestnet.id]: http(`https://public-node.testnet.rsk.co`),
+      [rootstock.id]: http(`https://public-node.rsk.co/`),
     },
     walletConnectProjectId: process.env
       .NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
