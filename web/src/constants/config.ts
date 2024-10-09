@@ -4,13 +4,13 @@ export const siteConfig = {
   url: "permissionless-iii-hackathon.vercel.app",
 };
 
-export const CHAIN_ID = 11155111;
+export const CHAIN_ID = 31;
 
 export const ELECTION_FACTORY_CONTRACT_ADDRESS =
-  "0x288C57b461675531AFA3BdAd0e26304bDFe1887d";
+  "0x10487A7Ec427885575C9e6FE198F7f34cb84EaA1";
 
 export const REGISTRY_CONTRACT_ADDRESS =
-  "0x75Af86A488A4Fa193664E27438871a978A1D83AC";
+  "0xFfac48B665F1FEBdD41F979b95C614c392a49a2D";
 
 export const ELECTION_CONTRACT_ABI = [
   {

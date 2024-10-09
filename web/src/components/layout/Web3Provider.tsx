@@ -1,15 +1,13 @@
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { sepolia } from "wagmi/chains";
+import { rootstockTestnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
 const config = createConfig(
   getDefaultConfig({
-    chains: [sepolia],
+    chains: [rootstockTestnet],
     transports: {
-      [sepolia.id]: http(
-        `https://sepolia.infura.io/v3/e302133655264f39baaf743ce6554333`
-      ),
+      [rootstockTestnet.id]: http(`https://public-node.testnet.rsk.co`),
     },
     walletConnectProjectId: process.env
       .NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
