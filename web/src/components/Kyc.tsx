@@ -7,13 +7,46 @@ import {
   checkDuplication,
   getApplicantId,
 } from "@/app/actions/kyc";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { useAuth } from "@/hooks/useAuth";
 import ConnectWalletButton from "@/components/layout/ConnectWalletButton";
+import { REGISTRY_CONTRACT_CONFIG } from "@/constants/config";
 export default function Kyc() {
   const { address } = useAccount();
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  const {
+    writeContract,
+    data: hash,
+    isSuccess,
+    isPending,
+    isError,
+    error,
+  } = useWriteContract();
+
+  const { data: registeredId } = useReadContract({
+    ...REGISTRY_CONTRACT_CONFIG,
+    functionName: "registeredVoters",
+    args: auth?.id ? [auth.id] : undefined,
+  });
+
+  useEffect(() => {
+    if (registeredId === null) {
+      console.log("registering voter");
+      writeContract({
+        ...REGISTRY_CONTRACT_CONFIG,
+        functionName: "register",
+        args: [auth.id as string],
+      });
+    } else {
+      console.log("voter already registered");
+    }
+  }, [registeredId]);
+
+  console.log("register hash", hash);
+  console.log("register isPending", isPending);
+  console.log("register error", error);
 
   useEffect(() => {
     if (!address) return;

@@ -25,21 +25,11 @@ export function VoteOptions({
 }) {
   const { electionContractAddress } = useParams();
 
-  // const { data: electionContractAddress } = useReadContract({
-  //   ...ELECTION_FACTORY_CONTRACT_CONFIG,
-  //   functionName: "getElection",
-  //   args: [keccak256(encodePacked(["string"], [electionId as string]))],
-  // });
-
-  console.log("getElection result", electionContractAddress);
-
   const { data: electionName } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
     address: electionContractAddress as `0x${string}`,
     functionName: "name",
   });
-
-  console.log("electionName", electionName);
 
   const { data: electionDeadline } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
@@ -47,42 +37,11 @@ export function VoteOptions({
     functionName: "deadline",
   });
 
-  console.log("electionDeadline", electionDeadline);
-
   const { data: candidates } = useReadContract({
     ...ELECTION_CONTRACT_CONFIG,
     address: electionContractAddress as `0x${string}`,
     functionName: "getCandidates",
   });
-
-  console.log("candidates", candidates);
-  // console.log("electionOptions", electionOptions);
-
-  // name, description, kickoff, deadline
-  // const electionName = "2024 US Presidential Election";
-
-  // const electionOptions = [
-  //   {
-  //     name: "Donald J. Trump",
-  //     description: "Republican candidate",
-  //   },
-  //   {
-  //     name: "Kamala Harris",
-  //     description: "Democratic candidate",
-  //   },
-  //   {
-  //     name: "Kamala Harris",
-  //     description: "Democratic candidate",
-  //   },
-  //   {
-  //     name: "Kamala Harris",
-  //     description: "Democratic candidate",
-  //   },
-  //   {
-  //     name: "Kamala Harris",
-  //     description: "Democratic candidate",
-  //   },
-  // ];
 
   const deadline = electionDeadline ? Number(electionDeadline) * 1000 : 0;
 
