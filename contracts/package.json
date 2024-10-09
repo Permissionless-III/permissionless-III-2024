@@ -47,7 +47,9 @@
   },
   "scripts": {
     "compile": "hardhat compile",
+    "test": "hardhat test",
     "deploy": "hardhat ignition deploy",
-    "clean": "hardhat clean"
+    "clean": "hardhat clean",
+    "verify": "hardhat ignition verify chain-31 --network rskTestnet --include-unrelated-contracts"
   }
 }
